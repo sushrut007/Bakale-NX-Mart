@@ -20,13 +20,13 @@ export default function AboutPage() {
   ];
 
   return (
-    <main className="min-h-screen" style={{ backgroundColor: "var(--brand-ivory)" }}>
+    <main className="min-h-screen" style={{ backgroundColor: "var(--background-page)" }}>
       <Navbar />
 
       {/* Hero */}
       <section
         className="relative min-h-[60vh] flex items-center pt-24 overflow-hidden"
-        style={{ backgroundColor: "var(--brand-maroon)" }}
+        style={{ backgroundColor: "var(--primary)" }}
       >
         {/* Diamond pattern bg */}
         <div className="absolute inset-0 opacity-5">
@@ -45,14 +45,14 @@ export default function AboutPage() {
             className="max-w-2xl"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--brand-red)" }} />
-              <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--brand-red)" }}>
+              <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--accent)" }} />
+              <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--accent)" }}>
                 Our Story
               </span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-black tracking-tight leading-tight" style={{ color: "var(--brand-ivory)" }}>
+            <h1 className="text-5xl md:text-6xl font-black tracking-tight leading-tight" style={{ color: "var(--background-page)" }}>
               Crafting Style Since{" "}
-              <span style={{ color: "var(--brand-red)" }}>Decades</span>
+              <span style={{ color: "var(--accent)" }}>Decades</span>
             </h1>
             <p className="mt-5 text-lg leading-relaxed" style={{ color: "rgba(253,251,243,0.75)" }}>
               Bakale Nx Cut-piece & Readymade is Solapur's trusted destination for premium
@@ -63,17 +63,17 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-20" style={{ backgroundColor: "var(--brand-blush)" }}>
+      <section className="py-20" style={{ backgroundColor: "var(--background-surface)" }}>
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-2">
-              <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--brand-red)" }} />
-              <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--brand-red)" }}>
+              <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--accent)" }} />
+              <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--accent)" }}>
                 What We Stand For
               </span>
-              <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--brand-red)" }} />
+              <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--accent)" }} />
             </div>
-            <h2 className="text-4xl font-black tracking-tight" style={{ color: "var(--brand-maroon)" }}>
+            <h2 className="text-4xl font-black tracking-tight" style={{ color: "var(--primary)" }}>
               Our Values
             </h2>
           </div>
@@ -87,15 +87,15 @@ export default function AboutPage() {
                 transition={{ delay: i * 0.1 }}
                 className="rounded-2xl p-6 border"
                 style={{
-                  backgroundColor: "var(--brand-white)",
-                  borderColor: "rgba(59,10,10,0.1)",
+                  backgroundColor: "#FFFFFF",
+                  borderColor: "rgba(42, 42, 140, 0.1)",
                 }}
               >
                 <div className="text-3xl mb-3">{v.icon}</div>
-                <h3 className="font-black text-base mb-2" style={{ color: "var(--brand-maroon)" }}>
+                <h3 className="font-black text-base mb-2" style={{ color: "var(--primary)" }}>
                   {v.title}
                 </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--brand-warm-grey)" }}>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                   {v.desc}
                 </p>
               </motion.div>
@@ -105,17 +105,17 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="py-20" style={{ backgroundColor: "var(--brand-ivory)" }}>
+      <section className="py-20" style={{ backgroundColor: "var(--background-page)" }}>
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-2">
-              <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--brand-red)" }} />
-              <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--brand-red)" }}>
+              <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--accent)" }} />
+              <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--accent)" }}>
                 Our Journey
               </span>
-              <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--brand-red)" }} />
+              <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--accent)" }} />
             </div>
-            <h2 className="text-4xl font-black tracking-tight" style={{ color: "var(--brand-maroon)" }}>
+            <h2 className="text-4xl font-black tracking-tight" style={{ color: "var(--primary)" }}>
               How We Grew
             </h2>
           </div>
@@ -132,7 +132,7 @@ export default function AboutPage() {
                 <div className="flex flex-col items-center">
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-xs shrink-0"
-                    style={{ backgroundColor: "var(--brand-maroon)", color: "var(--brand-ivory)" }}
+                    style={{ backgroundColor: "var(--primary)", color: "var(--background-page)" }}
                   >
                     {m.year}
                   </div>
@@ -141,7 +141,7 @@ export default function AboutPage() {
                   )}
                 </div>
                 <div className="pb-8">
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--brand-near-black)" }}>
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--text-primary)" }}>
                     {m.text}
                   </p>
                 </div>
@@ -152,17 +152,17 @@ export default function AboutPage() {
       </section>
 
       {/* Store Info + Map */}
-      <section className="py-20" style={{ backgroundColor: "var(--brand-maroon)" }}>
+      <section className="py-20" style={{ backgroundColor: "var(--primary)" }}>
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-10 items-start">
             <div>
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--brand-red)" }} />
-                <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--brand-red)" }}>
+                <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--accent)" }} />
+                <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--accent)" }}>
                   Find Us
                 </span>
               </div>
-              <h2 className="text-4xl font-black tracking-tight mb-8" style={{ color: "var(--brand-ivory)" }}>
+              <h2 className="text-4xl font-black tracking-tight mb-8" style={{ color: "var(--background-page)" }}>
                 Visit Our Store
               </h2>
 
@@ -180,14 +180,14 @@ export default function AboutPage() {
                     {info.icon}
                   </div>
                   <div>
-                    <p className="font-black text-sm mb-1" style={{ color: "var(--brand-red)" }}>
+                    <p className="font-black text-sm mb-1" style={{ color: "var(--accent)" }}>
                       {info.title}
                     </p>
                     {info.title === "Phone" ? (
                       <a
                         href={`tel:${info.content.replace(/\s/g, "")}`}
                         className="text-sm whitespace-pre-line font-bold"
-                        style={{ color: "var(--brand-ivory)" }}
+                        style={{ color: "var(--background-page)" }}
                       >
                         {info.content}
                       </a>
@@ -213,7 +213,7 @@ export default function AboutPage() {
 
             <div
               className="h-[400px] rounded-3xl overflow-hidden border-4"
-              style={{ borderColor: "var(--brand-red)" }}
+              style={{ borderColor: "var(--accent)" }}
             >
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3801.44299908868!2d75.9189617154238!3d17.67664689912061!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc5da89d59e896d%3A0xc0adf7d717d433e2!2sBakale%20nx%20Cut-piece%20%26%20readymade!5e0!3m2!1sen!2sin!4v1691234567890!5m2!1sen!2sin"
@@ -230,18 +230,18 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 text-center" style={{ backgroundColor: "var(--brand-blush)" }}>
+      <section className="py-16 text-center" style={{ backgroundColor: "var(--background-surface)" }}>
         <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl font-black mb-4" style={{ color: "var(--brand-maroon)" }}>
+          <h2 className="text-3xl font-black mb-4" style={{ color: "var(--primary)" }}>
             Ready to explore our collection?
           </h2>
-          <p className="text-base mb-8" style={{ color: "var(--brand-warm-grey)" }}>
+          <p className="text-base mb-8" style={{ color: "var(--text-secondary)" }}>
             Browse 30+ premium fabrics and readymade garments
           </p>
           <Link
             href="/shop"
             className="inline-flex items-center gap-2 px-10 py-4 rounded-full font-black text-sm uppercase tracking-wider text-white"
-            style={{ backgroundColor: "var(--brand-red)" }}
+            style={{ backgroundColor: "var(--accent)" }}
           >
             Shop Now
           </Link>

@@ -32,8 +32,8 @@ export default function ProductCard(product: ProductCardProps) {
     <motion.div
       className="group relative flex flex-col rounded-2xl overflow-hidden border transition-all duration-500"
       style={{
-        backgroundColor: "var(--brand-white)",
-        borderColor: isHovered ? "var(--brand-maroon)" : "rgba(59,10,10,0.1)",
+        backgroundColor: "#FFFFFF",
+        borderColor: isHovered ? "var(--primary)" : "rgba(42, 42, 140, 0.1)",
         boxShadow: isHovered
           ? "0 20px 40px rgba(59,10,10,0.15)"
           : "0 2px 8px rgba(59,10,10,0.06)",
@@ -48,7 +48,7 @@ export default function ProductCard(product: ProductCardProps) {
       {/* Image Container */}
       <div
         className="relative aspect-[4/5] overflow-hidden"
-        style={{ backgroundColor: "var(--brand-blush)" }}
+        style={{ backgroundColor: "var(--background-surface)" }}
       >
         <motion.img
           src={image}
@@ -63,14 +63,14 @@ export default function ProductCard(product: ProductCardProps) {
         <div className="absolute top-3 left-3 flex flex-col gap-1.5">
           <span
             className="text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
-            style={{ backgroundColor: "var(--brand-maroon)", color: "var(--brand-ivory)" }}
+            style={{ backgroundColor: "var(--primary)", color: "var(--background-page)" }}
           >
             {category}
           </span>
           {isNew && (
             <span
               className="text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
-              style={{ backgroundColor: "var(--brand-red)", color: "white" }}
+              style={{ backgroundColor: "var(--accent)", color: "white" }}
             >
               New
             </span>
@@ -78,7 +78,7 @@ export default function ProductCard(product: ProductCardProps) {
           {isBestseller && (
             <span
               className="text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
-              style={{ backgroundColor: "#6B3A0A", color: "var(--brand-ivory)" }}
+              style={{ backgroundColor: "var(--primary-dark)", color: "var(--background-page)" }}
             >
               Bestseller
             </span>
@@ -90,7 +90,7 @@ export default function ProductCard(product: ProductCardProps) {
           <div className="absolute top-3 right-10">
             <span
               className="text-[10px] font-bold px-2 py-1 rounded-full"
-              style={{ backgroundColor: "var(--brand-red)", color: "white" }}
+              style={{ backgroundColor: "var(--accent)", color: "white" }}
             >
               /meter
             </span>
@@ -113,8 +113,8 @@ export default function ProductCard(product: ProductCardProps) {
         <button
           className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200"
           style={{
-            backgroundColor: isWishlisted ? "var(--brand-red)" : "rgba(255,255,255,0.9)",
-            color: isWishlisted ? "white" : "var(--brand-maroon)",
+            backgroundColor: isWishlisted ? "var(--accent)" : "rgba(255,255,255,0.9)",
+            color: isWishlisted ? "white" : "var(--primary)",
           }}
           onClick={(e) => {
             e.preventDefault();
@@ -151,7 +151,7 @@ export default function ProductCard(product: ProductCardProps) {
                 onClick={handleAddToCart}
                 className="w-full py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-colors"
                 style={{
-                  backgroundColor: added ? "var(--brand-maroon)" : "var(--brand-red)",
+                  backgroundColor: added ? "var(--primary)" : "var(--accent)",
                   color: "white",
                 }}
               >
@@ -171,16 +171,16 @@ export default function ProductCard(product: ProductCardProps) {
                     }}
                     className="flex-1 py-2 rounded-lg font-bold text-xs transition-all"
                     style={{
-                      backgroundColor: "var(--brand-white)",
-                      color: "var(--brand-maroon)",
+                      backgroundColor: "#FFFFFF",
+                      color: "var(--primary)",
                     }}
                     onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand-red)";
+                      (e.currentTarget as HTMLElement).style.backgroundColor = "var(--accent)";
                       (e.currentTarget as HTMLElement).style.color = "white";
                     }}
                     onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand-white)";
-                      (e.currentTarget as HTMLElement).style.color = "var(--brand-maroon)";
+                      (e.currentTarget as HTMLElement).style.backgroundColor = "#FFFFFF";
+                      (e.currentTarget as HTMLElement).style.color = "var(--primary)";
                     }}
                   >
                     {size}
@@ -197,7 +197,7 @@ export default function ProductCard(product: ProductCardProps) {
         {brand && (
           <span
             className="text-[10px] font-bold uppercase tracking-widest mb-1"
-            style={{ color: "var(--brand-warm-grey)" }}
+            style={{ color: "var(--text-secondary)" }}
           >
             {brand}
           </span>
@@ -205,7 +205,7 @@ export default function ProductCard(product: ProductCardProps) {
         <Link href={`/product/${id}`} className="block mb-auto">
           <h3
             className="text-sm font-bold leading-snug line-clamp-2 transition-colors"
-            style={{ color: "var(--brand-near-black)" }}
+            style={{ color: "var(--text-primary)" }}
           >
             {name}
           </h3>
@@ -214,10 +214,10 @@ export default function ProductCard(product: ProductCardProps) {
           className="flex items-center justify-between mt-3 pt-3 border-t"
           style={{ borderColor: "rgba(59,10,10,0.08)" }}
         >
-          <span className="text-xl font-black" style={{ color: "var(--brand-maroon)" }}>
+          <span className="text-xl font-black" style={{ color: "var(--primary)" }}>
             ₹{price.toLocaleString("en-IN")}
             {isCutPiece && (
-              <span className="text-xs font-normal ml-1" style={{ color: "var(--brand-warm-grey)" }}>
+              <span className="text-xs font-normal ml-1" style={{ color: "var(--text-secondary)" }}>
                 /m
               </span>
             )}
@@ -225,7 +225,7 @@ export default function ProductCard(product: ProductCardProps) {
           <Link
             href={`/product/${id}`}
             className="text-xs font-bold uppercase tracking-wider"
-            style={{ color: "var(--brand-red)" }}
+            style={{ color: "var(--accent)" }}
           >
             View →
           </Link>

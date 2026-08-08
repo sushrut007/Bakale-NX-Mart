@@ -31,6 +31,7 @@ function ShopContent() {
 
   useEffect(() => {
     const cat = searchParams.get("category");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (cat) setFilters((f) => ({ ...f, category: cat }));
   }, [searchParams]);
 
@@ -74,25 +75,25 @@ function ShopContent() {
   }, [filters, searchQuery]);
 
   return (
-    <main className="min-h-screen pt-24" style={{ backgroundColor: "var(--brand-ivory)" }}>
+    <main className="min-h-screen pt-24" style={{ backgroundColor: "var(--background-page)" }}>
       <Navbar />
 
       {/* Page Header */}
       <div
         className="py-12 border-b"
         style={{
-          backgroundColor: "var(--brand-maroon)",
+          backgroundColor: "var(--primary)",
           borderColor: "rgba(255,255,255,0.1)",
         }}
       >
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--brand-red)" }} />
-            <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--brand-red)" }}>
+            <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--accent)" }} />
+            <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--accent)" }}>
               Full Collection
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: "var(--brand-ivory)" }}>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: "var(--background-page)" }}>
             Shop All Products
           </h1>
           <p className="mt-2 text-sm" style={{ color: "rgba(253,251,243,0.6)" }}>
@@ -109,22 +110,22 @@ function ShopContent() {
           <div
             className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl border"
             style={{
-              backgroundColor: "var(--brand-white)",
+              backgroundColor: "#FFFFFF",
               borderColor: "rgba(59,10,10,0.15)",
             }}
           >
-            <Search size={18} style={{ color: "var(--brand-warm-grey)" }} />
+            <Search size={18} style={{ color: "var(--text-secondary)" }} />
             <input
               type="text"
               placeholder="Search fabrics, brands, categories..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="flex-1 bg-transparent text-sm font-medium outline-none"
-              style={{ color: "var(--brand-maroon)" }}
+              style={{ color: "var(--primary)" }}
             />
             {searchQuery && (
               <button onClick={() => setSearchQuery("")}>
-                <X size={16} style={{ color: "var(--brand-warm-grey)" }} />
+                <X size={16} style={{ color: "var(--text-secondary)" }} />
               </button>
             )}
           </div>
@@ -134,9 +135,9 @@ function ShopContent() {
             onClick={() => setIsFilterOpen(true)}
             className="lg:hidden flex items-center gap-2 px-4 py-3 rounded-xl font-bold text-sm border"
             style={{
-              backgroundColor: "var(--brand-maroon)",
-              color: "var(--brand-ivory)",
-              borderColor: "var(--brand-maroon)",
+              backgroundColor: "var(--primary)",
+              color: "var(--background-page)",
+              borderColor: "var(--primary)",
             }}
           >
             <SlidersHorizontal size={16} />
@@ -146,7 +147,7 @@ function ShopContent() {
           {/* View mode */}
           <div
             className="hidden sm:flex items-center gap-1 p-1 rounded-xl border"
-            style={{ borderColor: "rgba(59,10,10,0.15)", backgroundColor: "var(--brand-white)" }}
+            style={{ borderColor: "rgba(59,10,10,0.15)", backgroundColor: "#FFFFFF" }}
           >
             {(["grid", "list"] as const).map((mode) => (
               <button
@@ -154,8 +155,8 @@ function ShopContent() {
                 onClick={() => setViewMode(mode)}
                 className="p-2 rounded-lg transition-all"
                 style={{
-                  backgroundColor: viewMode === mode ? "var(--brand-maroon)" : "transparent",
-                  color: viewMode === mode ? "white" : "var(--brand-warm-grey)",
+                  backgroundColor: viewMode === mode ? "var(--primary)" : "transparent",
+                  color: viewMode === mode ? "white" : "var(--text-secondary)",
                 }}
               >
                 {mode === "grid" ? <Grid3X3 size={18} /> : <List size={18} />}
@@ -187,7 +188,7 @@ function ShopContent() {
                   exit={{ x: "-100%" }}
                   transition={{ type: "spring", damping: 30 }}
                   className="fixed left-0 top-0 bottom-0 z-50 w-80 overflow-y-auto p-5"
-                  style={{ backgroundColor: "var(--brand-ivory)" }}
+                  style={{ backgroundColor: "var(--background-page)" }}
                 >
                   <CategoryFilter
                     filters={filters}
@@ -204,10 +205,10 @@ function ShopContent() {
             {filtered.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-24 gap-4">
                 <div className="text-5xl">🔍</div>
-                <p className="font-bold text-xl" style={{ color: "var(--brand-maroon)" }}>
+                <p className="font-bold text-xl" style={{ color: "var(--primary)" }}>
                   No products found
                 </p>
-                <p className="text-sm" style={{ color: "var(--brand-warm-grey)" }}>
+                <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
                   Try adjusting your filters or search term
                 </p>
                 <button
@@ -216,7 +217,7 @@ function ShopContent() {
                     setSearchQuery("");
                   }}
                   className="px-6 py-3 rounded-full font-bold text-sm text-white"
-                  style={{ backgroundColor: "var(--brand-red)" }}
+                  style={{ backgroundColor: "var(--accent)" }}
                 >
                   Clear Filters
                 </button>
@@ -255,7 +256,7 @@ function ShopContent() {
 
 export default function ShopPage() {
   return (
-    <Suspense fallback={<div style={{ backgroundColor: "var(--brand-ivory)" }} className="min-h-screen" />}>
+    <Suspense fallback={<div style={{ backgroundColor: "var(--background-page)" }} className="min-h-screen" />}>
       <ShopContent />
     </Suspense>
   );

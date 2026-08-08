@@ -35,19 +35,19 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
     <div
       className="rounded-2xl p-5 border sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto"
       style={{
-        backgroundColor: "var(--brand-white)",
-        borderColor: "rgba(59,10,10,0.1)",
+        backgroundColor: "#FFFFFF",
+        borderColor: "rgba(42, 42, 140, 0.1)",
       }}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
-        <h3 className="font-black text-base uppercase tracking-wider" style={{ color: "var(--brand-maroon)" }}>
+        <h3 className="font-black text-base uppercase tracking-wider" style={{ color: "var(--primary)" }}>
           Filters
         </h3>
         <button
           onClick={reset}
           className="text-xs font-bold uppercase tracking-wider"
-          style={{ color: "var(--brand-red)" }}
+          style={{ color: "var(--accent)" }}
         >
           Reset All
         </button>
@@ -55,7 +55,7 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
 
       {/* Sort */}
       <div className="mb-6">
-        <h4 className="font-bold text-xs uppercase tracking-[0.15em] mb-3" style={{ color: "var(--brand-warm-grey)" }}>
+        <h4 className="font-bold text-xs uppercase tracking-[0.15em] mb-3" style={{ color: "var(--text-secondary)" }}>
           Sort By
         </h4>
         <div className="space-y-1.5">
@@ -67,12 +67,12 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
               style={{
                 backgroundColor:
                   filters.sortBy === opt.value
-                    ? "var(--brand-maroon)"
+                    ? "var(--primary)"
                     : "transparent",
                 color:
                   filters.sortBy === opt.value
-                    ? "var(--brand-ivory)"
-                    : "var(--brand-near-black)",
+                    ? "var(--background-page)"
+                    : "var(--text-primary)",
               }}
             >
               {opt.label}
@@ -83,7 +83,7 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
 
       {/* Category */}
       <div className="mb-6">
-        <h4 className="font-bold text-xs uppercase tracking-[0.15em] mb-3" style={{ color: "var(--brand-warm-grey)" }}>
+        <h4 className="font-bold text-xs uppercase tracking-[0.15em] mb-3" style={{ color: "var(--text-secondary)" }}>
           Category
         </h4>
         <div className="space-y-1.5">
@@ -91,8 +91,8 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
             onClick={() => update({ category: "" })}
             className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all"
             style={{
-              backgroundColor: !filters.category ? "var(--brand-maroon)" : "transparent",
-              color: !filters.category ? "var(--brand-ivory)" : "var(--brand-near-black)",
+              backgroundColor: !filters.category ? "var(--primary)" : "transparent",
+              color: !filters.category ? "var(--background-page)" : "var(--text-primary)",
             }}
           >
             All Categories
@@ -104,11 +104,11 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
               className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all"
               style={{
                 backgroundColor:
-                  filters.category === cat ? "var(--brand-maroon)" : "transparent",
+                  filters.category === cat ? "var(--primary)" : "transparent",
                 color:
                   filters.category === cat
-                    ? "var(--brand-ivory)"
-                    : "var(--brand-near-black)",
+                    ? "var(--background-page)"
+                    : "var(--text-primary)",
               }}
             >
               {cat}
@@ -119,7 +119,7 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
 
       {/* Brand */}
       <div className="mb-6">
-        <h4 className="font-bold text-xs uppercase tracking-[0.15em] mb-3" style={{ color: "var(--brand-warm-grey)" }}>
+        <h4 className="font-bold text-xs uppercase tracking-[0.15em] mb-3" style={{ color: "var(--text-secondary)" }}>
           Brand
         </h4>
         <div className="space-y-1.5">
@@ -127,8 +127,8 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
             onClick={() => update({ brand: "" })}
             className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all"
             style={{
-              backgroundColor: !filters.brand ? "var(--brand-maroon)" : "transparent",
-              color: !filters.brand ? "var(--brand-ivory)" : "var(--brand-near-black)",
+              backgroundColor: !filters.brand ? "var(--primary)" : "transparent",
+              color: !filters.brand ? "var(--background-page)" : "var(--text-primary)",
             }}
           >
             All Brands
@@ -140,11 +140,11 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
               className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all"
               style={{
                 backgroundColor:
-                  filters.brand === b ? "var(--brand-maroon)" : "transparent",
+                  filters.brand === b ? "var(--primary)" : "transparent",
                 color:
                   filters.brand === b
-                    ? "var(--brand-ivory)"
-                    : "var(--brand-near-black)",
+                    ? "var(--background-page)"
+                    : "var(--text-primary)",
               }}
             >
               {b}
@@ -155,7 +155,7 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
 
       {/* Price Range */}
       <div className="mb-6">
-        <h4 className="font-bold text-xs uppercase tracking-[0.15em] mb-3" style={{ color: "var(--brand-warm-grey)" }}>
+        <h4 className="font-bold text-xs uppercase tracking-[0.15em] mb-3" style={{ color: "var(--text-secondary)" }}>
           Price Range
         </h4>
         <div className="flex gap-2 items-center">
@@ -163,29 +163,29 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
             className="flex-1 border rounded-lg overflow-hidden flex items-center px-2"
             style={{ borderColor: "rgba(59,10,10,0.2)" }}
           >
-            <span className="text-xs" style={{ color: "var(--brand-warm-grey)" }}>₹</span>
+            <span className="text-xs" style={{ color: "var(--text-secondary)" }}>₹</span>
             <input
               type="number"
               value={filters.minPrice}
               onChange={(e) => update({ minPrice: Number(e.target.value) })}
               className="w-full p-2 text-sm font-medium outline-none bg-transparent"
-              style={{ color: "var(--brand-maroon)" }}
+              style={{ color: "var(--primary)" }}
               min={globalMin}
               max={filters.maxPrice}
             />
           </div>
-          <span className="text-xs" style={{ color: "var(--brand-warm-grey)" }}>to</span>
+          <span className="text-xs" style={{ color: "var(--text-secondary)" }}>to</span>
           <div
             className="flex-1 border rounded-lg overflow-hidden flex items-center px-2"
             style={{ borderColor: "rgba(59,10,10,0.2)" }}
           >
-            <span className="text-xs" style={{ color: "var(--brand-warm-grey)" }}>₹</span>
+            <span className="text-xs" style={{ color: "var(--text-secondary)" }}>₹</span>
             <input
               type="number"
               value={filters.maxPrice}
               onChange={(e) => update({ maxPrice: Number(e.target.value) })}
               className="w-full p-2 text-sm font-medium outline-none bg-transparent"
-              style={{ color: "var(--brand-maroon)" }}
+              style={{ color: "var(--primary)" }}
               min={filters.minPrice}
               max={globalMax}
             />
@@ -195,7 +195,7 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
 
       {/* In Stock Only */}
       <div className="flex items-center justify-between">
-        <span className="font-bold text-sm" style={{ color: "var(--brand-maroon)" }}>
+        <span className="font-bold text-sm" style={{ color: "var(--primary)" }}>
           In Stock Only
         </span>
         <button
@@ -203,7 +203,7 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
           className="relative w-11 h-6 rounded-full transition-all"
           style={{
             backgroundColor: filters.inStockOnly
-              ? "var(--brand-red)"
+              ? "var(--accent)"
               : "rgba(59,10,10,0.15)",
           }}
         >
@@ -218,7 +218,7 @@ export default function CategoryFilter({ filters, onChange, onClose }: CategoryF
         <button
           onClick={onClose}
           className="mt-5 w-full py-3 rounded-xl font-bold text-sm uppercase tracking-wider text-white"
-          style={{ backgroundColor: "var(--brand-maroon)" }}
+          style={{ backgroundColor: "var(--primary)" }}
         >
           Apply Filters
         </button>

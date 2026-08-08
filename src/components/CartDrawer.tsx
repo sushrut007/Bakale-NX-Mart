@@ -28,25 +28,25 @@ export default function CartDrawer() {
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 300 }}
             className="fixed right-0 top-0 bottom-0 z-[70] w-full max-w-md flex flex-col shadow-2xl"
-            style={{ backgroundColor: "var(--brand-ivory)" }}
+            style={{ backgroundColor: "var(--background-page)" }}
           >
             {/* Header */}
             <div
               className="flex items-center justify-between px-6 py-5 border-b"
               style={{
-                backgroundColor: "var(--brand-maroon)",
+                backgroundColor: "var(--primary)",
                 borderColor: "rgba(255,255,255,0.1)",
               }}
             >
               <div className="flex items-center gap-3">
-                <ShoppingBag size={22} style={{ color: "var(--brand-ivory)" }} />
-                <span className="font-black text-lg" style={{ color: "var(--brand-ivory)" }}>
+                <ShoppingBag size={22} style={{ color: "var(--background-page)" }} />
+                <span className="font-black text-lg" style={{ color: "var(--background-page)" }}>
                   Your Cart
                 </span>
                 {totalItems > 0 && (
                   <span
                     className="w-6 h-6 rounded-full text-xs font-black flex items-center justify-center"
-                    style={{ backgroundColor: "var(--brand-red)", color: "white" }}
+                    style={{ backgroundColor: "var(--accent)", color: "white" }}
                   >
                     {totalItems}
                   </span>
@@ -55,7 +55,7 @@ export default function CartDrawer() {
               <button
                 onClick={closeDrawer}
                 className="p-2 rounded-full transition-colors hover:bg-white/10"
-                style={{ color: "var(--brand-ivory)" }}
+                style={{ color: "var(--background-page)" }}
               >
                 <X size={22} />
               </button>
@@ -65,18 +65,18 @@ export default function CartDrawer() {
             <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full gap-4 py-20">
-                  <ShoppingBag size={56} style={{ color: "var(--brand-maroon)", opacity: 0.2 }} />
-                  <p className="font-bold text-lg" style={{ color: "var(--brand-maroon)" }}>
+                  <ShoppingBag size={56} style={{ color: "var(--primary)", opacity: 0.2 }} />
+                  <p className="font-bold text-lg" style={{ color: "var(--primary)" }}>
                     Your cart is empty
                   </p>
-                  <p className="text-sm text-center" style={{ color: "var(--brand-warm-grey)" }}>
+                  <p className="text-sm text-center" style={{ color: "var(--text-secondary)" }}>
                     Add some products from our shop to get started
                   </p>
                   <Link
                     href="/shop"
                     onClick={closeDrawer}
                     className="mt-2 px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider text-white"
-                    style={{ backgroundColor: "var(--brand-red)" }}
+                    style={{ backgroundColor: "var(--accent)" }}
                   >
                     Browse Shop
                   </Link>
@@ -96,14 +96,14 @@ export default function CartDrawer() {
                       exit={{ opacity: 0, x: -20 }}
                       className="flex gap-3 p-3 rounded-2xl border"
                       style={{
-                        backgroundColor: "var(--brand-white)",
-                        borderColor: "rgba(59,10,10,0.1)",
+                        backgroundColor: "#FFFFFF",
+                        borderColor: "rgba(42, 42, 140, 0.1)",
                       }}
                     >
                       {/* Image */}
                       <div
                         className="w-20 h-24 rounded-xl overflow-hidden shrink-0"
-                        style={{ backgroundColor: "var(--brand-blush)" }}
+                        style={{ backgroundColor: "var(--background-surface)" }}
                       >
                         <img
                           src={item.product.image}
@@ -114,19 +114,19 @@ export default function CartDrawer() {
 
                       {/* Details */}
                       <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: "var(--brand-warm-grey)" }}>
+                        <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: "var(--text-secondary)" }}>
                           {item.product.brand}
                         </p>
-                        <h4 className="font-bold text-sm leading-snug line-clamp-2 mb-1" style={{ color: "var(--brand-maroon)" }}>
+                        <h4 className="font-bold text-sm leading-snug line-clamp-2 mb-1" style={{ color: "var(--primary)" }}>
                           {item.product.name}
                         </h4>
                         {item.selectedSize && (
-                          <p className="text-xs" style={{ color: "var(--brand-warm-grey)" }}>
+                          <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
                             Size: {item.selectedSize}
                           </p>
                         )}
                         {item.selectedLength && (
-                          <p className="text-xs" style={{ color: "var(--brand-warm-grey)" }}>
+                          <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
                             Length: {item.selectedLength}m
                           </p>
                         )}
@@ -138,7 +138,7 @@ export default function CartDrawer() {
                           >
                             <button
                               className="px-2 py-1 font-bold transition-colors"
-                              style={{ color: "var(--brand-maroon)" }}
+                              style={{ color: "var(--primary)" }}
                               onClick={() =>
                                 updateQty(
                                   item.product.id,
@@ -149,12 +149,12 @@ export default function CartDrawer() {
                             >
                               <Minus size={12} />
                             </button>
-                            <span className="px-2 text-sm font-bold" style={{ color: "var(--brand-maroon)" }}>
+                            <span className="px-2 text-sm font-bold" style={{ color: "var(--primary)" }}>
                               {item.quantity}
                             </span>
                             <button
                               className="px-2 py-1 font-bold transition-colors"
-                              style={{ color: "var(--brand-maroon)" }}
+                              style={{ color: "var(--primary)" }}
                               onClick={() =>
                                 updateQty(
                                   item.product.id,
@@ -167,7 +167,7 @@ export default function CartDrawer() {
                             </button>
                           </div>
 
-                          <span className="font-black text-sm" style={{ color: "var(--brand-red)" }}>
+                          <span className="font-black text-sm" style={{ color: "var(--accent)" }}>
                             ₹{linePrice.toLocaleString("en-IN")}
                           </span>
                         </div>
@@ -177,7 +177,7 @@ export default function CartDrawer() {
                       <button
                         onClick={() => removeItem(item.product.id, item.selectedSize)}
                         className="self-start p-1.5 rounded-lg transition-colors hover:bg-red-50"
-                        style={{ color: "var(--brand-warm-grey)" }}
+                        style={{ color: "var(--text-secondary)" }}
                       >
                         <Trash2 size={14} />
                       </button>
@@ -192,26 +192,26 @@ export default function CartDrawer() {
               <div
                 className="px-5 py-5 border-t space-y-3"
                 style={{
-                  borderColor: "rgba(59,10,10,0.1)",
-                  backgroundColor: "var(--brand-white)",
+                  borderColor: "rgba(42, 42, 140, 0.1)",
+                  backgroundColor: "#FFFFFF",
                 }}
               >
                 <div className="flex justify-between items-center">
-                  <span className="font-bold" style={{ color: "var(--brand-maroon)" }}>
+                  <span className="font-bold" style={{ color: "var(--primary)" }}>
                     Subtotal
                   </span>
-                  <span className="font-black text-xl" style={{ color: "var(--brand-maroon)" }}>
+                  <span className="font-black text-xl" style={{ color: "var(--primary)" }}>
                     ₹{totalPrice.toLocaleString("en-IN")}
                   </span>
                 </div>
-                <p className="text-xs" style={{ color: "var(--brand-warm-grey)" }}>
+                <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
                   Shipping & taxes calculated at checkout
                 </p>
                 <Link
                   href="/checkout"
                   onClick={closeDrawer}
                   className="w-full py-4 rounded-xl font-black text-sm uppercase tracking-wider text-white flex items-center justify-center gap-2 transition-all"
-                  style={{ backgroundColor: "var(--brand-red)" }}
+                  style={{ backgroundColor: "var(--accent)" }}
                 >
                   Checkout
                   <ArrowRight size={16} />
@@ -221,8 +221,8 @@ export default function CartDrawer() {
                   onClick={closeDrawer}
                   className="w-full py-3 rounded-xl font-bold text-sm text-center border-2 transition-all"
                   style={{
-                    borderColor: "var(--brand-maroon)",
-                    color: "var(--brand-maroon)",
+                    borderColor: "var(--primary)",
+                    color: "var(--primary)",
                   }}
                 >
                   View Full Cart

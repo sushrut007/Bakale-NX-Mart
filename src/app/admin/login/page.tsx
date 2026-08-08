@@ -48,7 +48,7 @@ export default function AdminLogin() {
             height={64}
             className="mb-4"
           />
-          <h1 className="text-2xl font-black" style={{ color: "var(--brand-maroon)" }}>
+          <h1 className="text-2xl font-black" style={{ color: "var(--primary)" }}>
             Admin Portal
           </h1>
           <p className="text-sm text-gray-500 mt-1">Sign in to manage the store</p>
@@ -89,7 +89,7 @@ export default function AdminLogin() {
             type="submit"
             disabled={loading}
             className="w-full py-3 rounded-xl font-bold text-white transition-opacity disabled:opacity-50"
-            style={{ backgroundColor: "var(--brand-maroon)" }}
+            style={{ backgroundColor: "var(--primary)" }}
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>

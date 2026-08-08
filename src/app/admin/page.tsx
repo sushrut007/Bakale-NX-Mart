@@ -40,7 +40,7 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-3xl font-black mb-8" style={{ color: "var(--brand-maroon)" }}>Dashboard</h1>
+      <h1 className="text-3xl font-black mb-8" style={{ color: "var(--primary)" }}>Dashboard</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
@@ -49,7 +49,7 @@ export default function AdminDashboard() {
           </div>
           <div>
             <div className="text-sm font-bold text-gray-500 uppercase tracking-wider">Total Products</div>
-            <div className="text-3xl font-black" style={{ color: "var(--brand-maroon)" }}>
+            <div className="text-3xl font-black" style={{ color: "var(--primary)" }}>
               {loading ? "..." : stats.products}
             </div>
           </div>
@@ -61,7 +61,7 @@ export default function AdminDashboard() {
           </div>
           <div>
             <div className="text-sm font-bold text-gray-500 uppercase tracking-wider">Total Orders</div>
-            <div className="text-3xl font-black" style={{ color: "var(--brand-maroon)" }}>
+            <div className="text-3xl font-black" style={{ color: "var(--primary)" }}>
               {loading ? "..." : stats.orders}
             </div>
           </div>
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
           </div>
           <div>
             <div className="text-sm font-bold text-gray-500 uppercase tracking-wider">Total Revenue</div>
-            <div className="text-3xl font-black" style={{ color: "var(--brand-maroon)" }}>
+            <div className="text-3xl font-black" style={{ color: "var(--primary)" }}>
               {loading ? "..." : `₹${stats.revenue.toLocaleString("en-IN")}`}
             </div>
           </div>

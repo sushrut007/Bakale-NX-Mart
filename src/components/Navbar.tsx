@@ -30,8 +30,8 @@ export default function Navbar() {
     <header
       className="fixed top-0 left-0 w-full z-50 transition-all duration-300"
       style={{
-        backgroundColor: "var(--brand-white)",
-        borderBottom: isScrolled ? "1px solid rgba(59,10,10,0.1)" : "1px solid transparent",
+        backgroundColor: "#FFFFFF",
+        borderBottom: isScrolled ? "1px solid rgba(42, 42, 140, 0.1)" : "1px solid transparent",
         boxShadow: isScrolled ? "0 2px 20px rgba(59,10,10,0.08)" : "none",
         padding: isScrolled ? "6px 0" : "10px 0",
       }}
@@ -47,7 +47,7 @@ export default function Navbar() {
             className="flex items-center gap-2"
           >
             <Image
-              src="/logo.png"
+              src="/logo-icon.jpg"
               alt="Bakale Nx Logo"
               width={52}
               height={52}
@@ -55,16 +55,17 @@ export default function Navbar() {
               priority
             />
             <div className="hidden sm:block leading-none">
-              <span
-                className="text-xl font-black tracking-tighter"
-                style={{ color: "var(--brand-maroon)" }}
-              >
-                BAKALE{" "}
-                <span style={{ color: "var(--brand-red)" }}>Nx</span>
-              </span>
+              <Image
+                src="/logo-text.jpg"
+                alt="Bakale Nx"
+                width={120}
+                height={40}
+                className="object-contain mb-1"
+                priority
+              />
               <div
                 className="text-[9px] tracking-[0.2em] uppercase font-medium"
-                style={{ color: "var(--brand-warm-grey)" }}
+                style={{ color: "var(--text-secondary)" }}
               >
                 Cut-piece & Readymade
               </div>
@@ -84,12 +85,12 @@ export default function Navbar() {
               <Link
                 href={item.href}
                 className="text-sm font-semibold transition-colors duration-200 relative group"
-                style={{ color: "var(--brand-maroon)" }}
+                style={{ color: "var(--primary)" }}
               >
                 {item.label}
                 <span
                   className="absolute -bottom-0.5 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300"
-                  style={{ backgroundColor: "var(--brand-red)" }}
+                  style={{ backgroundColor: "var(--accent)" }}
                 />
               </Link>
             </motion.div>
@@ -106,7 +107,7 @@ export default function Navbar() {
             whileTap={{ scale: 0.95 }}
             onClick={openDrawer}
             className="relative p-2.5 rounded-full flex items-center justify-center transition-colors"
-            style={{ color: "var(--brand-maroon)" }}
+            style={{ color: "var(--primary)" }}
             aria-label="Open cart"
           >
             <ShoppingBag size={22} />
@@ -118,7 +119,7 @@ export default function Navbar() {
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
                   className="absolute -top-0.5 -right-0.5 w-5 h-5 text-white text-[10px] flex items-center justify-center rounded-full font-black"
-                  style={{ backgroundColor: "var(--brand-red)" }}
+                  style={{ backgroundColor: "var(--accent)" }}
                 >
                   {totalItems > 9 ? "9+" : totalItems}
                 </motion.span>
@@ -130,7 +131,7 @@ export default function Navbar() {
           <Link
             href="/shop"
             className="hidden md:flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-black uppercase tracking-wider text-white transition-all"
-            style={{ backgroundColor: "var(--brand-red)" }}
+            style={{ backgroundColor: "var(--accent)" }}
           >
             Shop Now
           </Link>
@@ -138,7 +139,7 @@ export default function Navbar() {
           {/* Hamburger */}
           <button
             className="md:hidden p-2 rounded-full transition-colors"
-            style={{ color: "var(--brand-maroon)" }}
+            style={{ color: "var(--primary)" }}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -157,8 +158,8 @@ export default function Navbar() {
             transition={{ duration: 0.3 }}
             className="md:hidden overflow-hidden"
             style={{
-              backgroundColor: "var(--brand-white)",
-              borderTop: "1px solid rgba(59,10,10,0.1)",
+              backgroundColor: "#FFFFFF",
+              borderTop: "1px solid rgba(42, 42, 140, 0.1)",
             }}
           >
             <div className="px-4 py-4 flex flex-col gap-1">
@@ -167,20 +168,20 @@ export default function Navbar() {
                   key={item.label}
                   href={item.href}
                   className="text-base font-semibold py-3 px-3 rounded-lg transition-colors"
-                  style={{ color: "var(--brand-maroon)" }}
+                  style={{ color: "var(--primary)" }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.label}
                 </Link>
               ))}
-              <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(59,10,10,0.1)" }}>
+              <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(42, 42, 140, 0.1)" }}>
                 <button
                   onClick={() => {
                     setIsMobileMenuOpen(false);
                     openDrawer();
                   }}
                   className="flex items-center gap-2 py-3 px-3 rounded-lg font-bold w-full"
-                  style={{ color: "var(--brand-red)" }}
+                  style={{ color: "var(--accent)" }}
                 >
                   <ShoppingBag size={18} />
                   Cart ({totalItems})
@@ -188,7 +189,7 @@ export default function Navbar() {
                 <Link
                   href="/shop"
                   className="mt-2 w-full block py-3 rounded-xl font-black text-sm uppercase tracking-wider text-white text-center"
-                  style={{ backgroundColor: "var(--brand-red)" }}
+                  style={{ backgroundColor: "var(--accent)" }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Shop Now

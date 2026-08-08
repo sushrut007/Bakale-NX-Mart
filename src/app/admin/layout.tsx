@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 import { LayoutDashboard, Package, ShoppingCart, LogOut } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
@@ -26,13 +27,17 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen flex" style={{ backgroundColor: "var(--background-surface-alt)" }}>
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col hidden md:flex">
-        <div className="p-6 border-b border-gray-100">
-          <span className="text-2xl font-black tracking-tighter" style={{ color: "var(--brand-maroon)" }}>
-            BAKALE <span style={{ color: "var(--brand-red)" }}>Nx</span>
-          </span>
+      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col hidden md:flex" style={{ backgroundColor: "var(--background-page)", borderColor: "var(--border-default)" }}>
+        <div className="p-6 border-b border-gray-100" style={{ borderColor: "var(--border-default)" }}>
+          <Image
+            src="/logo-text.jpg"
+            alt="Bakale Nx"
+            width={120}
+            height={40}
+            className="object-contain mb-1"
+          />
           <div className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
             Admin Panel
           </div>
@@ -46,10 +51,10 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-colors ${
                   isActive
-                    ? "bg-red-50 text-red-600"
+                    ? ""
                     : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                 }`}
-                style={isActive ? { color: "var(--brand-red)", backgroundColor: "rgba(238,27,27,0.1)" } : {}}
+                style={isActive ? { color: "var(--accent)", backgroundColor: "var(--accent-tint)" } : {}}
               >
                 <item.icon size={20} />
                 {item.label}
@@ -57,7 +62,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             );
           })}
         </nav>
-        <div className="p-4 border-t border-gray-100">
+        <div className="p-4 border-t border-gray-100" style={{ borderColor: "var(--border-default)" }}>
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-3 w-full rounded-xl font-semibold text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors"

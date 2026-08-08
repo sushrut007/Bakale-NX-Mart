@@ -57,7 +57,7 @@ export default function AdminOrders() {
 
   return (
     <div>
-      <h1 className="text-3xl font-black mb-8" style={{ color: "var(--brand-maroon)" }}>
+      <h1 className="text-3xl font-black mb-8" style={{ color: "var(--primary)" }}>
         Orders
       </h1>
 

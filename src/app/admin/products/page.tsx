@@ -42,13 +42,13 @@ export default function AdminProducts() {
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-black" style={{ color: "var(--brand-maroon)" }}>
+        <h1 className="text-3xl font-black" style={{ color: "var(--primary)" }}>
           Products
         </h1>
         <Link
           href="/admin/products/new"
           className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm text-white transition-opacity hover:opacity-90"
-          style={{ backgroundColor: "var(--brand-red)" }}
+          style={{ backgroundColor: "var(--accent)" }}
         >
           <Plus size={16} />
           Add Product

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, ShoppingBag, ArrowRight, Loader2 } from "lucide-react";
+import { CheckCircle, ShoppingBag, ArrowRight } from "lucide-react";
+import BrandLoader from "@/components/BrandLoader";
 import Navbar from "@/components/Navbar";
 import { useCart } from "@/context/CartContext";
 
@@ -73,7 +74,7 @@ export default function CheckoutPage() {
 
   if (orderId) {
     return (
-      <main className="min-h-screen pt-24 flex items-center justify-center" style={{ backgroundColor: "var(--brand-ivory)" }}>
+      <main className="min-h-screen pt-24 flex items-center justify-center" style={{ backgroundColor: "var(--background-page)" }}>
         <Navbar />
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -86,38 +87,38 @@ export default function CheckoutPage() {
             transition={{ delay: 0.2, type: "spring" }}
             className="flex justify-center mb-6"
           >
-            <CheckCircle size={80} style={{ color: "var(--brand-red)" }} />
+            <CheckCircle size={80} style={{ color: "var(--accent)" }} />
           </motion.div>
-          <h1 className="text-3xl font-black mb-3" style={{ color: "var(--brand-maroon)" }}>
+          <h1 className="text-3xl font-black mb-3" style={{ color: "var(--primary)" }}>
             Order Placed! 🎉
           </h1>
-          <p className="text-base leading-relaxed mb-2" style={{ color: "var(--brand-near-black)" }}>
+          <p className="text-base leading-relaxed mb-2" style={{ color: "var(--text-primary)" }}>
             Thank you for your order. Our team will contact you shortly at your provided number to confirm delivery details.
           </p>
           <div
             className="my-6 px-5 py-4 rounded-2xl border"
             style={{
-              backgroundColor: "var(--brand-blush)",
-              borderColor: "rgba(59,10,10,0.1)",
+              backgroundColor: "var(--background-surface)",
+              borderColor: "rgba(42, 42, 140, 0.1)",
             }}
           >
-            <p className="text-xs uppercase tracking-wider mb-1" style={{ color: "var(--brand-warm-grey)" }}>
+            <p className="text-xs uppercase tracking-wider mb-1" style={{ color: "var(--text-secondary)" }}>
               Order ID
             </p>
-            <p className="text-xl font-black" style={{ color: "var(--brand-maroon)" }}>
+            <p className="text-xl font-black" style={{ color: "var(--primary)" }}>
               {orderId}
             </p>
           </div>
-          <p className="text-sm mb-8" style={{ color: "var(--brand-warm-grey)" }}>
+          <p className="text-sm mb-8" style={{ color: "var(--text-secondary)" }}>
             Questions? Call us at{" "}
-            <a href="tel:+918805092070" className="font-bold" style={{ color: "var(--brand-red)" }}>
+            <a href="tel:+918805092070" className="font-bold" style={{ color: "var(--accent)" }}>
               +91 8805092070
             </a>
           </p>
           <Link
             href="/shop"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-black text-white text-sm uppercase tracking-wider"
-            style={{ backgroundColor: "var(--brand-maroon)" }}
+            style={{ backgroundColor: "var(--primary)" }}
           >
             <ShoppingBag size={18} /> Continue Shopping
           </Link>
@@ -127,25 +128,25 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen pt-24" style={{ backgroundColor: "var(--brand-ivory)" }}>
+    <main className="min-h-screen pt-24" style={{ backgroundColor: "var(--background-page)" }}>
       <Navbar />
 
       {/* Header */}
       <div
         className="py-10 border-b"
         style={{
-          backgroundColor: "var(--brand-maroon)",
+          backgroundColor: "var(--primary)",
           borderColor: "rgba(255,255,255,0.1)",
         }}
       >
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--brand-red)" }} />
-            <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--brand-red)" }}>
+            <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--accent)" }} />
+            <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "var(--accent)" }}>
               Checkout
             </span>
           </div>
-          <h1 className="text-4xl font-black tracking-tight" style={{ color: "var(--brand-ivory)" }}>
+          <h1 className="text-4xl font-black tracking-tight" style={{ color: "var(--background-page)" }}>
             Complete Your Order
           </h1>
         </div>
@@ -153,9 +154,9 @@ export default function CheckoutPage() {
 
       {items.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 gap-5">
-          <ShoppingBag size={64} style={{ color: "var(--brand-maroon)", opacity: 0.15 }} />
-          <p className="font-black text-xl" style={{ color: "var(--brand-maroon)" }}>No items to checkout</p>
-          <Link href="/shop" className="px-8 py-4 rounded-full font-black text-white text-sm" style={{ backgroundColor: "var(--brand-red)" }}>
+          <ShoppingBag size={64} style={{ color: "var(--primary)", opacity: 0.15 }} />
+          <p className="font-black text-xl" style={{ color: "var(--primary)" }}>No items to checkout</p>
+          <Link href="/shop" className="px-8 py-4 rounded-full font-black text-white text-sm" style={{ backgroundColor: "var(--accent)" }}>
             Go to Shop <ArrowRight size={16} className="inline ml-1" />
           </Link>
         </div>
@@ -167,11 +168,11 @@ export default function CheckoutPage() {
               <div
                 className="rounded-2xl p-6 border"
                 style={{
-                  backgroundColor: "var(--brand-white)",
-                  borderColor: "rgba(59,10,10,0.1)",
+                  backgroundColor: "#FFFFFF",
+                  borderColor: "rgba(42, 42, 140, 0.1)",
                 }}
               >
-                <h2 className="font-black text-base uppercase tracking-wider mb-5" style={{ color: "var(--brand-maroon)" }}>
+                <h2 className="font-black text-base uppercase tracking-wider mb-5" style={{ color: "var(--primary)" }}>
                   Delivery Information
                 </h2>
 
@@ -183,9 +184,9 @@ export default function CheckoutPage() {
                     <div key={field.name}>
                       <label
                         className="block text-xs font-bold uppercase tracking-wider mb-1.5"
-                        style={{ color: "var(--brand-maroon)" }}
+                        style={{ color: "var(--primary)" }}
                       >
-                        {field.label} {field.required && <span style={{ color: "var(--brand-red)" }}>*</span>}
+                        {field.label} {field.required && <span style={{ color: "var(--accent)" }}>*</span>}
                       </label>
                       <input
                         name={field.name}
@@ -197,10 +198,10 @@ export default function CheckoutPage() {
                         className="w-full px-4 py-3 rounded-xl border-2 font-medium text-sm outline-none transition-colors"
                         style={{
                           borderColor: "rgba(59,10,10,0.2)",
-                          color: "var(--brand-maroon)",
-                          backgroundColor: "var(--brand-ivory)",
+                          color: "var(--primary)",
+                          backgroundColor: "var(--background-page)",
                         }}
-                        onFocus={(e) => (e.currentTarget.style.borderColor = "var(--brand-red)")}
+                        onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
                         onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(59,10,10,0.2)")}
                       />
                     </div>
@@ -208,8 +209,8 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="mt-4">
-                  <label className="block text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--brand-maroon)" }}>
-                    Street Address <span style={{ color: "var(--brand-red)" }}>*</span>
+                  <label className="block text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--primary)" }}>
+                    Street Address <span style={{ color: "var(--accent)" }}>*</span>
                   </label>
                   <input
                     name="address"
@@ -221,17 +222,17 @@ export default function CheckoutPage() {
                     className="w-full px-4 py-3 rounded-xl border-2 font-medium text-sm outline-none"
                     style={{
                       borderColor: "rgba(59,10,10,0.2)",
-                      color: "var(--brand-maroon)",
-                      backgroundColor: "var(--brand-ivory)",
+                      color: "var(--primary)",
+                      backgroundColor: "var(--background-page)",
                     }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = "var(--brand-red)")}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
                     onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(59,10,10,0.2)")}
                   />
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4 mt-4">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--brand-maroon)" }}>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--primary)" }}>
                       City
                     </label>
                     <input
@@ -242,14 +243,14 @@ export default function CheckoutPage() {
                       className="w-full px-4 py-3 rounded-xl border-2 font-medium text-sm outline-none"
                       style={{
                         borderColor: "rgba(59,10,10,0.2)",
-                        color: "var(--brand-maroon)",
-                        backgroundColor: "var(--brand-ivory)",
+                        color: "var(--primary)",
+                        backgroundColor: "var(--background-page)",
                       }}
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--brand-maroon)" }}>
-                      PIN Code <span style={{ color: "var(--brand-red)" }}>*</span>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--primary)" }}>
+                      PIN Code <span style={{ color: "var(--accent)" }}>*</span>
                     </label>
                     <input
                       name="pincode"
@@ -262,17 +263,17 @@ export default function CheckoutPage() {
                       className="w-full px-4 py-3 rounded-xl border-2 font-medium text-sm outline-none"
                       style={{
                         borderColor: "rgba(59,10,10,0.2)",
-                        color: "var(--brand-maroon)",
-                        backgroundColor: "var(--brand-ivory)",
+                        color: "var(--primary)",
+                        backgroundColor: "var(--background-page)",
                       }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = "var(--brand-red)")}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
                       onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(59,10,10,0.2)")}
                     />
                   </div>
                 </div>
 
                 <div className="mt-4">
-                  <label className="block text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--brand-maroon)" }}>
+                  <label className="block text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--primary)" }}>
                     Special Notes (Optional)
                   </label>
                   <textarea
@@ -284,10 +285,10 @@ export default function CheckoutPage() {
                     className="w-full px-4 py-3 rounded-xl border-2 font-medium text-sm outline-none resize-none"
                     style={{
                       borderColor: "rgba(59,10,10,0.2)",
-                      color: "var(--brand-maroon)",
-                      backgroundColor: "var(--brand-ivory)",
+                      color: "var(--primary)",
+                      backgroundColor: "var(--background-page)",
                     }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = "var(--brand-red)")}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
                     onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(59,10,10,0.2)")}
                   />
                 </div>
@@ -301,10 +302,10 @@ export default function CheckoutPage() {
                   borderColor: "rgba(238,27,27,0.2)",
                 }}
               >
-                <p className="text-sm font-bold" style={{ color: "var(--brand-maroon)" }}>
+                <p className="text-sm font-bold" style={{ color: "var(--primary)" }}>
                   💳 Payment on Delivery
                 </p>
-                <p className="text-xs mt-1" style={{ color: "var(--brand-warm-grey)" }}>
+                <p className="text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
                   We accept cash, UPI (PhonePe, GPay, Paytm), and bank transfer. Our team will confirm payment details upon calling you.
                 </p>
               </div>
@@ -320,12 +321,12 @@ export default function CheckoutPage() {
                 disabled={loading}
                 className="w-full py-4 rounded-xl font-black text-sm uppercase tracking-wider text-white flex items-center justify-center gap-3 transition-all disabled:opacity-70"
                 style={{
-                  backgroundColor: "var(--brand-red)",
+                  backgroundColor: "var(--accent)",
                   boxShadow: "0 8px 24px rgba(238,27,27,0.3)",
                 }}
               >
                 {loading ? (
-                  <><Loader2 size={18} className="animate-spin" /> Placing Order...</>
+                  <><BrandLoader size={18} className="mr-2" /> Placing Order...</>
                 ) : (
                   <>Place Order — ₹{grandTotal.toLocaleString("en-IN")}</>
                 )}
@@ -337,11 +338,11 @@ export default function CheckoutPage() {
               <div
                 className="rounded-2xl p-6 border sticky top-24"
                 style={{
-                  backgroundColor: "var(--brand-white)",
-                  borderColor: "rgba(59,10,10,0.1)",
+                  backgroundColor: "#FFFFFF",
+                  borderColor: "rgba(42, 42, 140, 0.1)",
                 }}
               >
-                <h2 className="font-black text-base uppercase tracking-wider mb-4" style={{ color: "var(--brand-maroon)" }}>
+                <h2 className="font-black text-base uppercase tracking-wider mb-4" style={{ color: "var(--primary)" }}>
                   Order Summary
                 </h2>
 
@@ -350,44 +351,44 @@ export default function CheckoutPage() {
                     <div key={`${item.product.id}-${idx}`} className="flex gap-3">
                       <div
                         className="w-12 h-14 rounded-lg overflow-hidden shrink-0"
-                        style={{ backgroundColor: "var(--brand-blush)" }}
+                        style={{ backgroundColor: "var(--background-surface)" }}
                       >
                         <img src={item.product.image} alt="" className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold line-clamp-1" style={{ color: "var(--brand-maroon)" }}>
+                        <p className="text-xs font-bold line-clamp-1" style={{ color: "var(--primary)" }}>
                           {item.product.name}
                         </p>
-                        <p className="text-[10px]" style={{ color: "var(--brand-warm-grey)" }}>
+                        <p className="text-[10px]" style={{ color: "var(--text-secondary)" }}>
                           Qty: {item.quantity}
                           {item.selectedSize ? ` · ${item.selectedSize}` : ""}
                           {item.selectedLength ? ` · ${item.selectedLength}m` : ""}
                         </p>
                       </div>
-                      <p className="text-xs font-black shrink-0" style={{ color: "var(--brand-red)" }}>
+                      <p className="text-xs font-black shrink-0" style={{ color: "var(--accent)" }}>
                         ₹{(item.product.price * item.quantity * (item.selectedLength ?? 1)).toLocaleString("en-IN")}
                       </p>
                     </div>
                   ))}
                 </div>
 
-                <div className="h-px mb-4" style={{ backgroundColor: "rgba(59,10,10,0.1)" }} />
+                <div className="h-px mb-4" style={{ backgroundColor: "rgba(42, 42, 140, 0.1)" }} />
 
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span style={{ color: "var(--brand-warm-grey)" }}>Subtotal</span>
-                    <span className="font-bold" style={{ color: "var(--brand-maroon)" }}>₹{totalPrice.toLocaleString("en-IN")}</span>
+                    <span style={{ color: "var(--text-secondary)" }}>Subtotal</span>
+                    <span className="font-bold" style={{ color: "var(--primary)" }}>₹{totalPrice.toLocaleString("en-IN")}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span style={{ color: "var(--brand-warm-grey)" }}>Shipping</span>
-                    <span className="font-bold" style={{ color: shipping === 0 ? "green" : "var(--brand-maroon)" }}>
+                    <span style={{ color: "var(--text-secondary)" }}>Shipping</span>
+                    <span className="font-bold" style={{ color: shipping === 0 ? "green" : "var(--primary)" }}>
                       {shipping === 0 ? "FREE" : `₹${shipping}`}
                     </span>
                   </div>
-                  <div className="h-px" style={{ backgroundColor: "rgba(59,10,10,0.1)" }} />
+                  <div className="h-px" style={{ backgroundColor: "rgba(42, 42, 140, 0.1)" }} />
                   <div className="flex justify-between font-black">
-                    <span style={{ color: "var(--brand-maroon)" }}>Total</span>
-                    <span className="text-xl" style={{ color: "var(--brand-maroon)" }}>₹{grandTotal.toLocaleString("en-IN")}</span>
+                    <span style={{ color: "var(--primary)" }}>Total</span>
+                    <span className="text-xl" style={{ color: "var(--primary)" }}>₹{grandTotal.toLocaleString("en-IN")}</span>
                   </div>
                 </div>
               </div>

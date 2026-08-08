@@ -2,38 +2,64 @@
 
 /* ============================================================
    BAKALE NX — Brand Design Tokens
-   Extracted from logo: Maroon + Signal Red + Ivory
    ============================================================ */
 
 :root {
   /* Brand Colors */
-  --brand-maroon:        #3B0A0A;  /* Deep Maroon — nav, footer, headings */
-  --brand-maroon-light:  #5C1A1A;  /* Lighter maroon — hover states */
-  --brand-maroon-dark:   #260606;  /* Deeper maroon — pressed states */
-  --brand-red:           #EE1B1B;  /* Signal Red — CTAs, badges, accents */
-  --brand-red-light:     #F54444;  /* Lighter red — hover on red buttons */
-  --brand-red-dark:      #C80F0F;  /* Darker red — active states */
-  --brand-ivory:         #FDFBF3;  /* Warm Ivory — page background */
-  --brand-blush:         #F3E6DC;  /* Soft Blush — alternate sections */
-  --brand-warm-grey:     #8C7B75;  /* Warm Grey — secondary text */
-  --brand-near-black:    #2A1010;  /* Deep warm near-black — body text */
-  --brand-white:         #FFFFFF;
+  --primary:        #2A2A8C;  /* Indigo Blue */
+  --primary-dark:   #1D1D66;
+  --primary-tint:   #E6F1FB;
+  
+  --accent:         #E2231A;  /* Signal Red */
+  --accent-dark:    #B01812;
+  --accent-tint:    #FDEAEA;
 
-  /* Semantic Aliases */
-  --background: var(--brand-ivory);
-  --foreground: var(--brand-near-black);
-  --surface:    var(--brand-white);
-  --primary:    var(--brand-maroon);
-  --accent:     var(--brand-red);
+  --background-page:        #FFFFFF;
+  --background-surface:     #F7F6F2;
+  --background-surface-alt: #F1EFE8;
 
-  /* Tailwind CSS Overrides via @theme */
+  --text-primary:    #232323;
+  --text-secondary:  #4A4A4A;
+  --text-muted:      #8A8A85;
+  --text-on-primary: #FFFFFF;
+  --text-on-accent:  #FFFFFF;
+
+  --border-default: #E4E2DA;
+  --border-strong:  #C9C7BE;
+
+  /* Semantic Colors */
+  --semantic-success:      #1D9E75;
+  --semantic-success-tint: #E1F5EE;
+  --semantic-warning:      #BA7517;
+  --semantic-warning-tint: #FAEEDA;
+  --semantic-danger:       #E2231A;
+  --semantic-danger-tint:  #FDEAEA;
+  --semantic-info:         #2A2A8C;
+  --semantic-info-tint:    #E6F1FB;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-tint: var(--primary-tint);
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-tint: var(--accent-tint);
+  --color-background-page: var(--background-page);
+  --color-background-surface: var(--background-surface);
+  --color-background-surface-alt: var(--background-surface-alt);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-on-primary: var(--text-on-primary);
+  --color-text-on-accent: var(--text-on-accent);
+  --color-border-default: var(--border-default);
+  --color-border-strong: var(--border-strong);
+  
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-devanagari: var(--font-devanagari);
+  --font-mono: var(--font-mono);
 }
 
 /* ============================================================
@@ -49,32 +75,44 @@ html {
 }
 
 body {
-  background: var(--brand-ivory);
-  color: var(--brand-near-black);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background: var(--background-page);
+  color: var(--text-primary);
+  font-family: var(--font-body), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading), "Poppins", sans-serif;
+}
+
+.devanagari-text {
+  font-family: var(--font-devanagari), var(--font-body), sans-serif;
 }
 
 /* ============================================================
    Brand Utility Classes
    ============================================================ */
 
-.bg-brand-maroon       { background-color: var(--brand-maroon); }
-.bg-brand-maroon-light { background-color: var(--brand-maroon-light); }
-.bg-brand-red          { background-color: var(--brand-red); }
-.bg-brand-ivory        { background-color: var(--brand-ivory); }
-.bg-brand-blush        { background-color: var(--brand-blush); }
-.bg-brand-white        { background-color: var(--brand-white); }
+.bg-primary { background-color: var(--primary); }
+.bg-primary-dark { background-color: var(--primary-dark); }
+.bg-primary-tint { background-color: var(--primary-tint); }
+.bg-accent { background-color: var(--accent); }
+.bg-accent-dark { background-color: var(--accent-dark); }
+.bg-accent-tint { background-color: var(--accent-tint); }
+.bg-background-page { background-color: var(--background-page); }
+.bg-background-surface { background-color: var(--background-surface); }
+.bg-background-surface-alt { background-color: var(--background-surface-alt); }
 
-.text-brand-maroon     { color: var(--brand-maroon); }
-.text-brand-red        { color: var(--brand-red); }
-.text-brand-ivory      { color: var(--brand-ivory); }
-.text-brand-warm-grey  { color: var(--brand-warm-grey); }
-.text-brand-near-black { color: var(--brand-near-black); }
+.text-primary { color: var(--primary); }
+.text-accent { color: var(--accent); }
+.text-primary-text { color: var(--text-primary); }
+.text-secondary-text { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
 
-.border-brand-maroon   { border-color: var(--brand-maroon); }
-.border-brand-red      { border-color: var(--brand-red); }
+.border-primary { border-color: var(--primary); }
+.border-accent { border-color: var(--accent); }
+.border-default { border-color: var(--border-default); }
 
 /* ============================================================
    Scrollbar Styling
@@ -84,14 +122,14 @@ body {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--brand-ivory);
+  background: var(--background-surface);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--brand-maroon);
+  background: var(--primary);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--brand-red);
+  background: var(--accent);
 }
 
 /* ============================================================
@@ -99,6 +137,12 @@ body {
    ============================================================ */
 
 ::selection {
-  background: var(--brand-red);
-  color: var(--brand-white);
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+/* Focus Ring */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }

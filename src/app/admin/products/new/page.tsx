@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Save, Loader2, Plus, X } from "lucide-react";
+import { ArrowLeft, Save, Plus, X } from "lucide-react";
+import BrandLoader from "@/components/BrandLoader";
 
 export default function NewProduct() {
   const router = useRouter();
@@ -84,7 +85,7 @@ export default function NewProduct() {
         >
           <ArrowLeft size={20} />
         </Link>
-        <h1 className="text-3xl font-black" style={{ color: "var(--brand-maroon)" }}>
+        <h1 className="text-3xl font-black" style={{ color: "var(--primary)" }}>
           Add New Product
         </h1>
       </div>
@@ -275,9 +276,9 @@ export default function NewProduct() {
             type="submit"
             disabled={loading}
             className="flex items-center gap-2 px-8 py-4 rounded-xl font-black text-white text-sm uppercase tracking-wider transition-opacity disabled:opacity-50 hover:opacity-90 shadow-xl shadow-red-900/20"
-            style={{ backgroundColor: "var(--brand-red)" }}
+            style={{ backgroundColor: "var(--accent)" }}
           >
-            {loading ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
+            {loading ? <BrandLoader size={18} /> : <Save size={18} />}
             {loading ? "Saving..." : "Save Product"}
           </button>
         </div>

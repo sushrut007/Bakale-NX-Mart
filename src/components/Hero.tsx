@@ -28,7 +28,7 @@ export default function Hero() {
   return (
     <section
       className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
-      style={{ backgroundColor: "var(--brand-maroon)" }}
+      style={{ backgroundColor: "var(--primary)" }}
     >
       {/* Background Image with deep maroon overlay */}
       <div className="absolute inset-0 z-0">
@@ -37,7 +37,7 @@ export default function Hero() {
           className="absolute inset-0 z-10"
           style={{
             background:
-              "linear-gradient(110deg, var(--brand-maroon) 40%, rgba(59,10,10,0.75) 65%, rgba(59,10,10,0.25) 100%)",
+              "linear-gradient(110deg, var(--primary) 40%, rgba(42, 42, 140, 0.75) 65%, rgba(42, 42, 140, 0.25) 100%)",
           }}
         />
         <img
@@ -54,7 +54,7 @@ export default function Hero() {
             <div
               key={i}
               className="w-4 h-4 rotate-45 border"
-              style={{ borderColor: "var(--brand-red)" }}
+              style={{ borderColor: "var(--accent)" }}
             />
           ))}
         </div>
@@ -63,7 +63,7 @@ export default function Hero() {
       {/* Bottom decorative line */}
       <div
         className="absolute bottom-0 left-0 right-0 h-px z-10"
-        style={{ backgroundColor: "var(--brand-red)", opacity: 0.4 }}
+        style={{ backgroundColor: "var(--accent)", opacity: 0.4 }}
       />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -77,11 +77,11 @@ export default function Hero() {
           <motion.div variants={itemVariants} className="mb-5 flex items-center gap-3">
             <div
               className="w-2 h-2 rotate-45"
-              style={{ backgroundColor: "var(--brand-red)" }}
+              style={{ backgroundColor: "var(--accent)" }}
             />
             <span
               className="font-bold tracking-[0.3em] text-xs uppercase"
-              style={{ color: "var(--brand-red)" }}
+              style={{ color: "var(--accent)" }}
             >
               Established Excellence in Solapur
             </span>
@@ -90,19 +90,19 @@ export default function Hero() {
           <motion.h1
             variants={itemVariants}
             className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-[1.05]"
-            style={{ color: "var(--brand-white)" }}
+            style={{ color: "#FFFFFF" }}
           >
             Crafting Your{" "}
             <br />
             <span
               style={{
-                WebkitTextStroke: "2px var(--brand-red)",
+                WebkitTextStroke: "2px var(--accent)",
                 color: "transparent",
               }}
             >
               Signature
             </span>{" "}
-            <span style={{ color: "var(--brand-red)" }}>Style.</span>
+            <span style={{ color: "var(--accent)" }}>Style.</span>
           </motion.h1>
 
           <motion.p
@@ -119,14 +119,14 @@ export default function Hero() {
             <Link
               href="/shop"
               className="group flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white transition-all duration-300 hover:gap-4"
-              style={{ backgroundColor: "var(--brand-red)" }}
+              style={{ backgroundColor: "var(--accent)" }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.backgroundColor =
-                  "var(--brand-red-light)";
+                  "var(--accent-tint)";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.backgroundColor =
-                  "var(--brand-red)";
+                  "var(--accent)";
               }}
             >
               Explore Collection
@@ -140,11 +140,11 @@ export default function Hero() {
               className="flex items-center gap-2 px-8 py-4 rounded-full font-bold transition-all duration-300 border-2"
               style={{
                 borderColor: "rgba(253,251,243,0.4)",
-                color: "var(--brand-ivory)",
+                color: "var(--background-page)",
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = "var(--brand-ivory)";
+                el.style.borderColor = "var(--background-page)";
                 el.style.backgroundColor = "rgba(253,251,243,0.08)";
               }}
               onMouseLeave={(e) => {
@@ -170,7 +170,7 @@ export default function Hero() {
               <div key={stat.label}>
                 <div
                   className="text-3xl font-black"
-                  style={{ color: "var(--brand-red)" }}
+                  style={{ color: "var(--accent)" }}
                 >
                   {stat.value}
                 </div>
@@ -205,7 +205,7 @@ export default function Hero() {
           className="w-px h-12"
           style={{
             background:
-              "linear-gradient(to bottom, var(--brand-red), transparent)",
+              "linear-gradient(to bottom, var(--accent), transparent)",
           }}
         />
       </motion.div>
