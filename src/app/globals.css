@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/* ============================================================
+   BAKALE NX — Brand Design Tokens
+   Extracted from logo: Maroon + Signal Red + Ivory
+   ============================================================ */
+
+:root {
+  /* Brand Colors */
+  --brand-maroon:        #3B0A0A;  /* Deep Maroon — nav, footer, headings */
+  --brand-maroon-light:  #5C1A1A;  /* Lighter maroon — hover states */
+  --brand-maroon-dark:   #260606;  /* Deeper maroon — pressed states */
+  --brand-red:           #EE1B1B;  /* Signal Red — CTAs, badges, accents */
+  --brand-red-light:     #F54444;  /* Lighter red — hover on red buttons */
+  --brand-red-dark:      #C80F0F;  /* Darker red — active states */
+  --brand-ivory:         #FDFBF3;  /* Warm Ivory — page background */
+  --brand-blush:         #F3E6DC;  /* Soft Blush — alternate sections */
+  --brand-warm-grey:     #8C7B75;  /* Warm Grey — secondary text */
+  --brand-near-black:    #2A1010;  /* Deep warm near-black — body text */
+  --brand-white:         #FFFFFF;
+
+  /* Semantic Aliases */
+  --background: var(--brand-ivory);
+  --foreground: var(--brand-near-black);
+  --surface:    var(--brand-white);
+  --primary:    var(--brand-maroon);
+  --accent:     var(--brand-red);
+
+  /* Tailwind CSS Overrides via @theme */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ============================================================
+   Base Styles
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--brand-ivory);
+  color: var(--brand-near-black);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   Brand Utility Classes
+   ============================================================ */
+
+.bg-brand-maroon       { background-color: var(--brand-maroon); }
+.bg-brand-maroon-light { background-color: var(--brand-maroon-light); }
+.bg-brand-red          { background-color: var(--brand-red); }
+.bg-brand-ivory        { background-color: var(--brand-ivory); }
+.bg-brand-blush        { background-color: var(--brand-blush); }
+.bg-brand-white        { background-color: var(--brand-white); }
+
+.text-brand-maroon     { color: var(--brand-maroon); }
+.text-brand-red        { color: var(--brand-red); }
+.text-brand-ivory      { color: var(--brand-ivory); }
+.text-brand-warm-grey  { color: var(--brand-warm-grey); }
+.text-brand-near-black { color: var(--brand-near-black); }
+
+.border-brand-maroon   { border-color: var(--brand-maroon); }
+.border-brand-red      { border-color: var(--brand-red); }
+
+/* ============================================================
+   Scrollbar Styling
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--brand-ivory);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brand-maroon);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-red);
+}
+
+/* ============================================================
+   Selection Color
+   ============================================================ */
+
+::selection {
+  background: var(--brand-red);
+  color: var(--brand-white);
+}

@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Admin {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  category      String
+  brand         String
+  price         Float
+  originalPrice Float?
+  image         String
+  images        String   // JSON stringified array
+  isCutPiece    Boolean  @default(false)
+  inStock       Boolean  @default(true)
+  description   String
+  features      String   // JSON stringified array
+  availableSizes String? // JSON stringified array
+  tags          String?  // JSON stringified array
+  rating        Float    @default(5.0)
+  reviewCount   Int      @default(0)
+  isNew         Boolean  @default(false)
+  isBestseller  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  customerName    String
+  customerPhone   String
+  customerAddress String
+  totalPrice      Float
+  status          String      @default("PENDING") // PENDING, PROCESSING, SHIPPED, DELIVERED, CANCELLED
+  items           OrderItem[]
+  createdAt       DateTime    @default(now())
+}
+
+model OrderItem {
+  id             String  @id @default(cuid())
+  orderId        String
+  order          Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId      String
+  productName    String
+  priceAtTime    Float
+  quantity       Int
+  selectedSize   String?
+  selectedLength Float?
+}
