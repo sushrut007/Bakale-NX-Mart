@@ -68,8 +68,7 @@ export default function AdminLogin() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 border rounded-xl focus:ring-2 focus:outline-none"
-              style={{ focusRing: "var(--brand-maroon)" }}
+              className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-[#3B0A0A] focus:outline-none"
               placeholder="admin@bakalenx.com"
             />
           </div>
