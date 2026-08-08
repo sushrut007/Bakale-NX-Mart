@@ -1,8 +1,11 @@
+import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { products } from "../src/data/products";
 
-const adapter = new PrismaLibSql({ url: "file:./dev.db" });
+const adapter = new PrismaLibSql({ 
+  url: process.env.DATABASE_URL || "file:./dev.db" 
+});
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
