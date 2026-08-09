@@ -47,17 +47,31 @@ export default function Hero() {
         />
       </div>
 
-      {/* Decorative diamond pattern — top right */}
-      <div className="absolute top-24 right-12 z-10 opacity-10 hidden lg:block">
-        <div className="grid grid-cols-4 gap-4">
-          {Array.from({ length: 16 }).map((_, i) => (
-            <div
-              key={i}
-              className="w-4 h-4 rotate-45 border"
-              style={{ borderColor: "var(--accent)" }}
-            />
-          ))}
-        </div>
+      {/* Mobile Background Watermark Logo */}
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 z-0 lg:hidden opacity-10 mix-blend-screen pointer-events-none w-full max-w-sm">
+        <img
+          src="/logo-icon.jpg"
+          alt=""
+          className="w-full h-auto object-contain"
+          style={{ filter: "grayscale(1) invert(1) contrast(1.5)" }}
+        />
+      </div>
+
+      {/* Desktop Logo Right Side */}
+      <div className="absolute hidden lg:flex right-12 xl:right-32 top-1/2 -translate-y-1/2 z-10 pointer-events-none">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="relative bg-white p-6 rounded-[2rem] shadow-2xl"
+          style={{ boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)" }}
+        >
+          <img
+            src="/logo-icon.jpg"
+            alt="Bakale NX"
+            className="w-64 h-64 xl:w-80 xl:h-80 object-contain rounded-2xl"
+          />
+        </motion.div>
       </div>
 
       {/* Bottom decorative line */}
@@ -71,7 +85,7 @@ export default function Hero() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-3xl"
+          className="max-w-2xl lg:max-w-xl xl:max-w-3xl"
         >
           {/* Eyebrow tag */}
           <motion.div variants={itemVariants} className="mb-5 flex items-center gap-3">
@@ -163,7 +177,7 @@ export default function Hero() {
             className="mt-16 flex flex-wrap gap-10"
           >
             {[
-              { value: "30+", label: "Years in Business" },
+              { value: "50+", label: "Years in Business" },
               { value: "500+", label: "Premium Fabrics" },
               { value: "4.6★", label: "Google Rating" },
             ].map((stat) => (
