@@ -45,14 +45,22 @@ export default function AdminProducts() {
         <h1 className="text-3xl font-black" style={{ color: "var(--primary)" }}>
           Products
         </h1>
-        <Link
-          href="/admin/products/new"
-          className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm text-white transition-opacity hover:opacity-90"
-          style={{ backgroundColor: "var(--accent)" }}
-        >
-          <Plus size={16} />
-          Add Product
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/products/import"
+            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-bold text-sm transition-colors"
+          >
+            Import
+          </Link>
+          <Link
+            href="/admin/products/new"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm text-white transition-opacity hover:opacity-90"
+            style={{ backgroundColor: "var(--accent)" }}
+          >
+            <Plus size={16} />
+            Add Product
+          </Link>
+        </div>
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -116,12 +124,13 @@ export default function AdminProducts() {
                       >
                         <ExternalLink size={16} />
                       </Link>
-                      <button
+                      <Link
+                        href={`/admin/products/${product.id}/edit`}
                         className="p-2 text-gray-400 hover:text-blue-600 bg-white border border-gray-200 rounded-lg shadow-sm transition-colors"
-                        title="Edit product (Coming soon)"
+                        title="Edit product"
                       >
                         <Edit size={16} />
-                      </button>
+                      </Link>
                       <button
                         onClick={() => deleteProduct(product.id)}
                         className="p-2 text-gray-400 hover:text-red-600 bg-white border border-gray-200 rounded-lg shadow-sm transition-colors"
