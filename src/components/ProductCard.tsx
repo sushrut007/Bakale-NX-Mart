@@ -53,10 +53,14 @@ export default function ProductCard(product: ProductCardProps) {
         <motion.img
           src={image}
           alt={name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-all"
           animate={{ scale: isHovered ? 1.06 : 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          onError={(e) => { e.currentTarget.src = "/logo.png" }}
+          onError={(e) => { 
+            e.currentTarget.src = "/logo-icon.jpg";
+            e.currentTarget.classList.remove("object-cover");
+            e.currentTarget.classList.add("object-contain", "p-8", "opacity-50");
+          }}
         />
 
         {/* Badges */}

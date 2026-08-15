@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, ShoppingBag, ArrowRight } from "lucide-react";
+import { CheckCircle, ShoppingBag, ArrowRight, CreditCard, Truck, Smartphone } from "lucide-react";
 import BrandLoader from "@/components/BrandLoader";
 import Navbar from "@/components/Navbar";
 import { useCart } from "@/context/CartContext";
@@ -17,8 +17,30 @@ type FormData = {
   notes: string;
 };
 
+// Razorpay types
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
+const loadRazorpayScript = (): Promise<boolean> => {
+  return new Promise((resolve) => {
+    if (document.getElementById("razorpay-checkout-js")) {
+      resolve(true);
+      return;
+    }
+    const script = document.createElement("script");
+    script.id = "razorpay-checkout-js";
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
+
 export default function CheckoutPage() {
-  const { items, totalPrice, totalItems, clearCart } = useCart();
+  const { items, totalPrice, clearCart } = useCart();
   const [form, setForm] = useState<FormData>({
     name: "",
     phone: "",
@@ -27,6 +49,7 @@ export default function CheckoutPage() {
     pincode: "",
     notes: "",
   });
+  const [paymentMethod, setPaymentMethod] = useState<"COD" | "ONLINE">("COD");
   const [loading, setLoading] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -34,19 +57,14 @@ export default function CheckoutPage() {
   const shipping = totalPrice >= 1500 ? 0 : 99;
   const grandTotal = totalPrice + shipping;
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (items.length === 0) return;
-
+  // ── COD: submit directly ──────────────────────────────────────────────────
+  const handleCOD = async () => {
     setLoading(true);
     setError(null);
-
     try {
       const res = await fetch("/api/orders", {
         method: "POST",
@@ -59,16 +77,103 @@ export default function CheckoutPage() {
           totalPrice: grandTotal,
         }),
       });
-
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Failed to place order");
-
       setOrderId(data.orderId);
       clearCart();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ── ONLINE: open Razorpay modal ───────────────────────────────────────────
+  const handleOnlinePayment = async () => {
+    setLoading(true);
+    setError(null);
+
+    const loaded = await loadRazorpayScript();
+    if (!loaded) {
+      setError("Failed to load payment gateway. Check your internet connection.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // 1. Create order on our backend
+      const res = await fetch("/api/orders/create-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customerName: form.name,
+          customerPhone: form.phone,
+          customerAddress: `${form.address}, ${form.city} - ${form.pincode}`,
+          items,
+          totalPrice: grandTotal,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Could not create payment order");
+
+      // 2. Open Razorpay checkout
+      const rzpOptions = {
+        key: data.keyId,
+        amount: data.amount,
+        currency: data.currency,
+        name: "Bakale NX Mart",
+        description: `Order #${data.orderId}`,
+        order_id: data.razorpayOrderId,
+        prefill: {
+          name: form.name,
+          contact: form.phone,
+        },
+        theme: { color: "#EE1B1B" },
+        handler: async (response: any) => {
+          // 3. Verify signature on our backend
+          const verifyRes = await fetch("/api/orders/verify-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              razorpayOrderId: response.razorpay_order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature,
+              orderId: data.orderId,
+            }),
+          });
+          const verifyData = await verifyRes.json();
+          if (!verifyRes.ok) throw new Error(verifyData.error ?? "Payment verification failed");
+          setOrderId(verifyData.orderId);
+          clearCart();
+          setLoading(false);
+        },
+        modal: {
+          ondismiss: () => {
+            setError("Payment was cancelled. Please try again.");
+            setLoading(false);
+          },
+        },
+      };
+
+      const rzp = new window.Razorpay(rzpOptions);
+      rzp.on("payment.failed", (response: any) => {
+        setError(`Payment failed: ${response.error.description}`);
+        setLoading(false);
+      });
+      rzp.open();
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (items.length === 0) return;
+    if (paymentMethod === "COD") {
+      handleCOD();
+    } else {
+      handleOnlinePayment();
     }
   };
 
@@ -93,14 +198,13 @@ export default function CheckoutPage() {
             Order Placed! 🎉
           </h1>
           <p className="text-base leading-relaxed mb-2" style={{ color: "var(--text-primary)" }}>
-            Thank you for your order. Our team will contact you shortly at your provided number to confirm delivery details.
+            {paymentMethod === "ONLINE"
+              ? "Thank you! Your payment was successful and your order is confirmed."
+              : "Thank you for your order. Our team will contact you shortly at your provided number to confirm delivery details."}
           </p>
           <div
             className="my-6 px-5 py-4 rounded-2xl border"
-            style={{
-              backgroundColor: "var(--background-surface)",
-              borderColor: "rgba(42, 42, 140, 0.1)",
-            }}
+            style={{ backgroundColor: "var(--background-surface)", borderColor: "rgba(42, 42, 140, 0.1)" }}
           >
             <p className="text-xs uppercase tracking-wider mb-1" style={{ color: "var(--text-secondary)" }}>
               Order ID
@@ -134,10 +238,7 @@ export default function CheckoutPage() {
       {/* Header */}
       <div
         className="py-10 border-b"
-        style={{
-          backgroundColor: "var(--primary)",
-          borderColor: "rgba(255,255,255,0.1)",
-        }}
+        style={{ backgroundColor: "var(--primary)", borderColor: "rgba(255,255,255,0.1)" }}
       >
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-1">
@@ -165,12 +266,10 @@ export default function CheckoutPage() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Form */}
             <form onSubmit={handleSubmit} className="lg:col-span-2 space-y-5">
+              {/* Delivery Info */}
               <div
                 className="rounded-2xl p-6 border"
-                style={{
-                  backgroundColor: "#FFFFFF",
-                  borderColor: "rgba(42, 42, 140, 0.1)",
-                }}
+                style={{ backgroundColor: "#FFFFFF", borderColor: "rgba(42, 42, 140, 0.1)" }}
               >
                 <h2 className="font-black text-base uppercase tracking-wider mb-5" style={{ color: "var(--primary)" }}>
                   Delivery Information
@@ -182,10 +281,7 @@ export default function CheckoutPage() {
                     { name: "phone", label: "Phone Number", type: "tel", placeholder: "+91 98765 43210", required: true },
                   ].map((field) => (
                     <div key={field.name}>
-                      <label
-                        className="block text-xs font-bold uppercase tracking-wider mb-1.5"
-                        style={{ color: "var(--primary)" }}
-                      >
+                      <label className="block text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--primary)" }}>
                         {field.label} {field.required && <span style={{ color: "var(--accent)" }}>*</span>}
                       </label>
                       <input
@@ -196,11 +292,7 @@ export default function CheckoutPage() {
                         value={form[field.name as keyof FormData]}
                         onChange={handleChange}
                         className="w-full px-4 py-3 rounded-xl border-2 font-medium text-sm outline-none transition-colors"
-                        style={{
-                          borderColor: "rgba(59,10,10,0.2)",
-                          color: "var(--primary)",
-                          backgroundColor: "var(--background-page)",
-                        }}
+                        style={{ borderColor: "rgba(59,10,10,0.2)", color: "var(--primary)", backgroundColor: "var(--background-page)" }}
                         onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
                         onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(59,10,10,0.2)")}
                       />
@@ -213,18 +305,10 @@ export default function CheckoutPage() {
                     Street Address <span style={{ color: "var(--accent)" }}>*</span>
                   </label>
                   <input
-                    name="address"
-                    type="text"
-                    placeholder="House/Flat No., Street, Area"
-                    required
-                    value={form.address}
-                    onChange={handleChange}
+                    name="address" type="text" placeholder="House/Flat No., Street, Area" required
+                    value={form.address} onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl border-2 font-medium text-sm outline-none"
-                    style={{
-                      borderColor: "rgba(59,10,10,0.2)",
-                      color: "var(--primary)",
-                      backgroundColor: "var(--background-page)",
-                    }}
+                    style={{ borderColor: "rgba(59,10,10,0.2)", color: "var(--primary)", backgroundColor: "var(--background-page)" }}
                     onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
                     onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(59,10,10,0.2)")}
                   />
@@ -232,20 +316,11 @@ export default function CheckoutPage() {
 
                 <div className="grid sm:grid-cols-2 gap-4 mt-4">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--primary)" }}>
-                      City
-                    </label>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--primary)" }}>City</label>
                     <input
-                      name="city"
-                      type="text"
-                      value={form.city}
-                      onChange={handleChange}
+                      name="city" type="text" value={form.city} onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl border-2 font-medium text-sm outline-none"
-                      style={{
-                        borderColor: "rgba(59,10,10,0.2)",
-                        color: "var(--primary)",
-                        backgroundColor: "var(--background-page)",
-                      }}
+                      style={{ borderColor: "rgba(59,10,10,0.2)", color: "var(--primary)", backgroundColor: "var(--background-page)" }}
                     />
                   </div>
                   <div>
@@ -253,19 +328,10 @@ export default function CheckoutPage() {
                       PIN Code <span style={{ color: "var(--accent)" }}>*</span>
                     </label>
                     <input
-                      name="pincode"
-                      type="text"
-                      placeholder="413002"
-                      required
-                      maxLength={6}
-                      value={form.pincode}
-                      onChange={handleChange}
+                      name="pincode" type="text" placeholder="413002" required maxLength={6}
+                      value={form.pincode} onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl border-2 font-medium text-sm outline-none"
-                      style={{
-                        borderColor: "rgba(59,10,10,0.2)",
-                        color: "var(--primary)",
-                        backgroundColor: "var(--background-page)",
-                      }}
+                      style={{ borderColor: "rgba(59,10,10,0.2)", color: "var(--primary)", backgroundColor: "var(--background-page)" }}
                       onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
                       onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(59,10,10,0.2)")}
                     />
@@ -277,37 +343,92 @@ export default function CheckoutPage() {
                     Special Notes (Optional)
                   </label>
                   <textarea
-                    name="notes"
-                    placeholder="Any special requirements or delivery instructions..."
-                    rows={3}
-                    value={form.notes}
-                    onChange={handleChange}
+                    name="notes" placeholder="Any special requirements or delivery instructions..."
+                    rows={3} value={form.notes} onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl border-2 font-medium text-sm outline-none resize-none"
-                    style={{
-                      borderColor: "rgba(59,10,10,0.2)",
-                      color: "var(--primary)",
-                      backgroundColor: "var(--background-page)",
-                    }}
+                    style={{ borderColor: "rgba(59,10,10,0.2)", color: "var(--primary)", backgroundColor: "var(--background-page)" }}
                     onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
                     onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(59,10,10,0.2)")}
                   />
                 </div>
               </div>
 
-              {/* Payment note */}
+              {/* Payment Method Selection */}
               <div
-                className="rounded-2xl p-4 border"
-                style={{
-                  backgroundColor: "rgba(238,27,27,0.05)",
-                  borderColor: "rgba(238,27,27,0.2)",
-                }}
+                className="rounded-2xl p-6 border"
+                style={{ backgroundColor: "#FFFFFF", borderColor: "rgba(42, 42, 140, 0.1)" }}
               >
-                <p className="text-sm font-bold" style={{ color: "var(--primary)" }}>
-                  💳 Payment on Delivery
-                </p>
-                <p className="text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
-                  We accept cash, UPI (PhonePe, GPay, Paytm), and bank transfer. Our team will confirm payment details upon calling you.
-                </p>
+                <h2 className="font-black text-base uppercase tracking-wider mb-5" style={{ color: "var(--primary)" }}>
+                  Payment Method
+                </h2>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {/* COD Option */}
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("COD")}
+                    className={`flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all ${
+                      paymentMethod === "COD" ? "border-red-500 bg-red-50" : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
+                      paymentMethod === "COD" ? "bg-red-100 text-red-600" : "bg-gray-100 text-gray-500"
+                    }`}>
+                      <Truck size={20} />
+                    </div>
+                    <div>
+                      <p className="font-black text-sm" style={{ color: "var(--primary)" }}>Cash on Delivery</p>
+                      <p className="text-xs text-gray-500 mt-0.5">Pay when you receive</p>
+                    </div>
+                    {paymentMethod === "COD" && (
+                      <div className="ml-auto w-5 h-5 rounded-full bg-red-500 flex items-center justify-center shrink-0">
+                        <div className="w-2 h-2 rounded-full bg-white" />
+                      </div>
+                    )}
+                  </button>
+
+                  {/* Online Payment Option */}
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("ONLINE")}
+                    className={`flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all ${
+                      paymentMethod === "ONLINE" ? "border-red-500 bg-red-50" : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
+                      paymentMethod === "ONLINE" ? "bg-red-100 text-red-600" : "bg-gray-100 text-gray-500"
+                    }`}>
+                      <Smartphone size={20} />
+                    </div>
+                    <div>
+                      <p className="font-black text-sm" style={{ color: "var(--primary)" }}>Pay Online</p>
+                      <p className="text-xs text-gray-500 mt-0.5">UPI, Cards, Netbanking</p>
+                    </div>
+                    {paymentMethod === "ONLINE" && (
+                      <div className="ml-auto w-5 h-5 rounded-full bg-red-500 flex items-center justify-center shrink-0">
+                        <div className="w-2 h-2 rounded-full bg-white" />
+                      </div>
+                    )}
+                  </button>
+                </div>
+
+                {/* Info banner for selected method */}
+                <div
+                  className="mt-4 rounded-xl p-3 border"
+                  style={{
+                    backgroundColor: "rgba(238,27,27,0.04)",
+                    borderColor: "rgba(238,27,27,0.15)",
+                  }}
+                >
+                  {paymentMethod === "COD" ? (
+                    <p className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>
+                      💳 We accept cash, UPI (PhonePe, GPay, Paytm), and bank transfer. Our team will confirm payment details upon calling you.
+                    </p>
+                  ) : (
+                    <p className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>
+                      🔒 Secure payment via Razorpay. Supports all UPI apps, debit/credit cards, and netbanking. Your payment data is never stored on our servers.
+                    </p>
+                  )}
+                </div>
               </div>
 
               {error && (
@@ -320,27 +441,23 @@ export default function CheckoutPage() {
                 type="submit"
                 disabled={loading}
                 className="w-full py-4 rounded-xl font-black text-sm uppercase tracking-wider text-white flex items-center justify-center gap-3 transition-all disabled:opacity-70"
-                style={{
-                  backgroundColor: "var(--accent)",
-                  boxShadow: "0 8px 24px rgba(238,27,27,0.3)",
-                }}
+                style={{ backgroundColor: "var(--accent)", boxShadow: "0 8px 24px rgba(238,27,27,0.3)" }}
               >
                 {loading ? (
-                  <><BrandLoader size={18} className="mr-2" /> Placing Order...</>
+                  <><BrandLoader size={18} className="mr-2" /> Processing...</>
+                ) : paymentMethod === "ONLINE" ? (
+                  <><CreditCard size={18} /> Pay ₹{grandTotal.toLocaleString("en-IN")} Securely</>
                 ) : (
                   <>Place Order — ₹{grandTotal.toLocaleString("en-IN")}</>
                 )}
               </button>
             </form>
 
-            {/* Summary */}
+            {/* Order Summary Sidebar */}
             <div>
               <div
                 className="rounded-2xl p-6 border sticky top-24"
-                style={{
-                  backgroundColor: "#FFFFFF",
-                  borderColor: "rgba(42, 42, 140, 0.1)",
-                }}
+                style={{ backgroundColor: "#FFFFFF", borderColor: "rgba(42, 42, 140, 0.1)" }}
               >
                 <h2 className="font-black text-base uppercase tracking-wider mb-4" style={{ color: "var(--primary)" }}>
                   Order Summary
@@ -349,16 +466,11 @@ export default function CheckoutPage() {
                 <div className="space-y-3 mb-4">
                   {items.map((item, idx) => (
                     <div key={`${item.product.id}-${idx}`} className="flex gap-3">
-                      <div
-                        className="w-12 h-14 rounded-lg overflow-hidden shrink-0"
-                        style={{ backgroundColor: "var(--background-surface)" }}
-                      >
+                      <div className="w-12 h-14 rounded-lg overflow-hidden shrink-0" style={{ backgroundColor: "var(--background-surface)" }}>
                         <img src={item.product.image} alt="" className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold line-clamp-1" style={{ color: "var(--primary)" }}>
-                          {item.product.name}
-                        </p>
+                        <p className="text-xs font-bold line-clamp-1" style={{ color: "var(--primary)" }}>{item.product.name}</p>
                         <p className="text-[10px]" style={{ color: "var(--text-secondary)" }}>
                           Qty: {item.quantity}
                           {item.selectedSize ? ` · ${item.selectedSize}` : ""}
@@ -389,6 +501,17 @@ export default function CheckoutPage() {
                   <div className="flex justify-between font-black">
                     <span style={{ color: "var(--primary)" }}>Total</span>
                     <span className="text-xl" style={{ color: "var(--primary)" }}>₹{grandTotal.toLocaleString("en-IN")}</span>
+                  </div>
+                </div>
+
+                {/* Trust badges */}
+                <div className="mt-5 pt-4 border-t space-y-2" style={{ borderColor: "rgba(42, 42, 140, 0.08)" }}>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Secure & Trusted</p>
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <span>🔒</span> <span>SSL encrypted checkout</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <span>🏦</span> <span>Powered by Razorpay</span>
                   </div>
                 </div>
               </div>

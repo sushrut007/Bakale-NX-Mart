@@ -22,6 +22,8 @@ export async function POST(req: Request) {
         customerPhone,
         customerAddress,
         totalPrice,
+        paymentMethod: "COD",
+        paymentStatus: "PENDING",
         items: {
           create: items.map((item: any) => ({
             productId: item.product.id,
@@ -48,3 +50,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+
