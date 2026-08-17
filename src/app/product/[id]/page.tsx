@@ -1,17 +1,19 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Share2, Ruler, ArrowLeft, Heart, Check, Star, X } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
-import { getProductById, getRelatedProducts } from "@/data/products";
 import { useCart } from "@/context/CartContext";
+import { Product } from "@/types";
 
 export default function ProductDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const product = getProductById(id);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [related, setRelated] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const { addItem } = useCart();
 
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -21,6 +23,43 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
   const [addedToCart, setAddedToCart] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
   const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
+
+  useEffect(() => {
+    fetch(`/api/products/${id}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Not found");
+        return res.json();
+      })
+      .then(data => {
+        setProduct(data);
+        fetch(`/api/products?category=${encodeURIComponent(data.category)}`)
+          .then(res => res.json())
+          .then(relatedData => {
+            if (Array.isArray(relatedData)) {
+              setRelated(relatedData.filter((p: Product) => p.id !== id).slice(0, 4));
+            } else {
+              console.error("Failed to fetch related products:", relatedData);
+            }
+          });
+      })
+      .catch(err => {
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen pt-24 flex items-center justify-center" style={{ backgroundColor: "var(--background-page)" }}>
+        <Navbar />
+        <div className="text-center">
+          <p className="font-bold text-xl" style={{ color: "var(--primary)" }}>Loading product...</p>
+        </div>
+      </main>
+    );
+  }
 
   if (!product) {
     return (
@@ -36,7 +75,6 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
     );
   }
 
-  const related = getRelatedProducts(product, 4);
   const images = product.images ?? [product.image];
 
   const handleAddToCart = () => {

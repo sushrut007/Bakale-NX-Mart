@@ -5,12 +5,28 @@ import Hero from "@/components/Hero";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { getFeaturedProducts } from "@/data/products";
+import { Product } from "@/types";
 import { reviews, overallRating, totalReviews, ratingBreakdown } from "@/data/reviews";
 
 export default function Home() {
-  const featuredProducts = getFeaturedProducts(4);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/products?sort=featured")
+      .then((res) => res.json())
+      .then((data) => {
+        setFeaturedProducts(data.slice(0, 4));
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch featured products", err);
+        setLoading(false);
+      });
+  }, []);
+
 
   const categories = [
     { name: "Suitings", description: "Premium cut-piece fabrics by the meter", icon: "🧵", href: "/shop?category=Suiting" },

@@ -7,8 +7,8 @@ import { Search, SlidersHorizontal, X, Grid3X3, List } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilter from "@/components/CategoryFilter";
-import { products, minPrice as gMin, maxPrice as gMax } from "@/data/products";
-import { FilterState } from "@/types";
+import { minPrice as gMin, maxPrice as gMax } from "@/data/products";
+import { FilterState, Product } from "@/types";
 
 const defaultFilters: FilterState = {
   category: "",
@@ -28,6 +28,18 @@ function ShopContent() {
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then(res => res.json())
+      .then(data => {
+        setProducts(data);
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     const cat = searchParams.get("category");
@@ -202,7 +214,11 @@ function ShopContent() {
 
           {/* Products Grid */}
           <div className="flex-1 min-w-0">
-            {filtered.length === 0 ? (
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-24 gap-4">
+                <p className="font-bold text-xl" style={{ color: "var(--primary)" }}>Loading products...</p>
+              </div>
+            ) : filtered.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-24 gap-4">
                 <div className="text-5xl">🔍</div>
                 <p className="font-bold text-xl" style={{ color: "var(--primary)" }}>

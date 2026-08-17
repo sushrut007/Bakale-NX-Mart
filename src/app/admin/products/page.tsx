@@ -64,7 +64,8 @@ export default function AdminProducts() {
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-gray-50 border-b border-gray-100 text-gray-500">
               <tr>
@@ -152,6 +153,75 @@ export default function AdminProducts() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card View */}
+        <div className="block md:hidden border-t border-gray-100 divide-y divide-gray-100">
+          {products.map((product) => (
+            <div key={product.id} className="p-4 bg-white flex flex-col gap-4">
+              <div className="flex gap-4 items-start">
+                <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                  <img 
+                    src={product.image} 
+                    alt={product.name} 
+                    className="w-full h-full object-cover" 
+                    onError={(e) => { e.currentTarget.src = "/logo.png" }}
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-gray-900 leading-tight mb-1 truncate">{product.name}</div>
+                  <div className="text-xs text-gray-500 mb-2 truncate">{product.brand} • {product.category}</div>
+                  <div className="font-black text-gray-900 mb-2">₹{product.price.toLocaleString("en-IN")}</div>
+                  <div>
+                    {product.inStock ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                        In Stock
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                        <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                        Out of Stock
+                      </span>
+                    )}
+                    {product.isCutPiece && (
+                      <span className="ml-2 inline-flex items-center gap-1 text-[10px] font-bold text-orange-700 bg-orange-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                        Cut-piece
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2 pt-1">
+                <Link
+                  href={`/product/${product.id}`}
+                  target="_blank"
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 text-gray-600 bg-gray-50 border border-gray-200 rounded-xl font-bold text-xs transition-colors active:bg-gray-100"
+                >
+                  <ExternalLink size={14} /> View
+                </Link>
+                <Link
+                  href={`/admin/products/${product.id}/edit`}
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 text-blue-600 bg-blue-50 border border-blue-100 rounded-xl font-bold text-xs transition-colors active:bg-blue-100"
+                >
+                  <Edit size={14} /> Edit
+                </Link>
+                <button
+                  onClick={() => deleteProduct(product.id)}
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 text-red-600 bg-red-50 border border-red-100 rounded-xl font-bold text-xs transition-colors active:bg-red-100"
+                >
+                  <Trash2 size={14} /> Delete
+                </button>
+              </div>
+            </div>
+          ))}
+          
+          {products.length === 0 && (
+            <div className="p-8 text-center text-gray-500 text-sm">
+              No products found. Click "Add Product" to create one.
+            </div>
+          )}
         </div>
       </div>
     </div>

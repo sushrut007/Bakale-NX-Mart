@@ -15,11 +15,11 @@ export async function GET(req: NextRequest) {
     const where: any = {};
 
     if (category) {
-      where.category = { equals: category, collate: 'NOCASE' };
+      where.category = { equals: category };
     }
 
     if (brand) {
-      where.brand = { equals: brand, collate: 'NOCASE' };
+      where.brand = { equals: brand };
     }
 
     if (search) {
