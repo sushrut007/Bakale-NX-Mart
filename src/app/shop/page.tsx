@@ -84,7 +84,7 @@ function ShopContent() {
     }
 
     return result;
-  }, [filters, searchQuery]);
+  }, [filters, searchQuery, products]);
 
   return (
     <main className="min-h-screen pt-24" style={{ backgroundColor: "var(--background-page)" }}>

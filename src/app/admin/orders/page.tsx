@@ -62,7 +62,8 @@ export default function AdminOrders() {
       </h1>
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-gray-50 border-b border-gray-100 text-gray-500">
               <tr>
@@ -121,6 +122,49 @@ export default function AdminOrders() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card View */}
+        <div className="block md:hidden border-t border-gray-100 divide-y divide-gray-100">
+          {orders.map((order) => (
+            <div key={order.id} className="p-4 bg-white flex flex-col gap-3">
+              <div className="flex justify-between items-start mb-1">
+                <div>
+                  <div className="font-bold text-gray-900 leading-tight mb-1">{order.customerName}</div>
+                  <div className="text-xs text-gray-500">{order.customerPhone}</div>
+                </div>
+                <div className="text-right shrink-0 ml-4">
+                  <div className="font-black text-gray-900">₹{order.totalPrice.toLocaleString("en-IN")}</div>
+                  <div className="text-[10px] font-mono text-gray-400 mt-1">ID: {order.id.slice(0, 8)}</div>
+                </div>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <div className="text-gray-500 font-medium">
+                  {format(new Date(order.createdAt), "MMM d, yyyy")} • <span className="text-gray-900 font-bold">{order.items?.length || 0} items</span>
+                </div>
+              </div>
+              <div className="mt-2 pt-3 border-t border-gray-50">
+                <select
+                  value={order.status}
+                  onChange={(e) => updateStatus(order.id, e.target.value)}
+                  disabled={updating === order.id}
+                  className={`w-full text-xs font-bold uppercase tracking-wider px-3 py-3 rounded-xl border-r-8 border-transparent cursor-pointer outline-none transition-colors shadow-sm ${getStatusColor(order.status)} ${updating === order.id ? 'opacity-50' : ''}`}
+                >
+                  <option value="PENDING">Pending</option>
+                  <option value="PROCESSING">Processing</option>
+                  <option value="SHIPPED">Shipped</option>
+                  <option value="DELIVERED">Delivered</option>
+                  <option value="CANCELLED">Cancelled</option>
+                </select>
+              </div>
+            </div>
+          ))}
+          
+          {orders.length === 0 && (
+            <div className="p-8 text-center text-gray-500 text-sm">
+              No orders found.
+            </div>
+          )}
         </div>
       </div>
     </div>
